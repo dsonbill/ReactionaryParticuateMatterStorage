@@ -1,0 +1,8 @@
+-- Systematic Designer
+-- Light Bearer
+-- Systematic Describer
+-- Space Shifter
+-- Entaglement Predicator - Entanglement Requirements - Dictates the exstraordinary 
+-- Lessened/Metaphorical Description - Symbolic Linker - Changes the waves objective existence into other object types temporarily
+-- Powerful Object - Particle Collection - Collects and redistributes the waves based on differnt types of datasets
+-- Light Shifter - Both Stupid - Shifts the state of the wave and alters it's location
