@@ -44,6 +44,55 @@ namespace UniversalMachine
 
         public float Age { get; private set; }
 
+        public int SlamEvents = 0;
+
+        public double SlamConsideration;
+
+        public double ContactDepth;
+
+        public Func<double, double> PrimaryReduction
+        {
+            get
+            {
+                return new Func<double, double>((regionalArea) =>
+                 {
+                     double syphon = 1 / Energy.magnitude * ContactDepth / regionalArea;
+                     Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
+
+                     return 1 / Energy.magnitude * ContactDepth * regionalArea - SlamConsideration;
+                 });
+            }
+        }
+
+        public Func<double, double> SecondaryReduction
+        {
+            get
+            {
+                return new Func<double, double>((regionalArea) =>
+                {
+                    double syphon = 1 / Age * ContactDepth * regionalArea;
+                    Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
+
+                    return 1 / Energy.magnitude * ContactDepth / regionalArea - SlamConsideration;
+                });
+            }
+        }
+
+        public Func<double, double> TertiaryReduction
+        {
+            get
+            {
+                return new Func<double, double>((regionalArea) =>
+                {
+                    double fAvg = (Force.x + Force.y + Force.z) / 3;
+                    double syphon = 1 /  * ContactDepth * regionalArea;
+                    Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
+
+                    return 1 / Energy.magnitude * ContactDepth / regionalArea - SlamConsideration;
+                });
+            }
+        }
+
         public StateFocus Focus = StateFocus.Energy;
 
         public Func<Vector3, Vector3, Vector3, Vector3> Project;
@@ -85,7 +134,7 @@ namespace UniversalMachine
             //report.AppendLine("Contact Force: " + contactForce);
             //report.AppendLine();
 
-            float totalDiscernment = Position.w * Energy.w;
+            float totalDiscernment = Position.w * Energy.w * Mathf.Pow(Torque.w, 2) * Mathf.Sqrt(Force.w);
             float discernmentRatio = GetDiscernmentRatio(totalDiscernment, deltaTime);
             //float discernmentRatio = 1 / totalIndiscernment;
             //float currentDiscernment = discernmentRatio * deltaTime;
@@ -437,16 +486,17 @@ namespace UniversalMachine
             Torque = new Vector4(Torque.x * torqueSolve, Torque.y * torqueSolve, Torque.z * torqueSolve, Torque.w - torqueSolve);
         }
 
+        public void Reduce(float delta, Func<double, double, double> algorithmic, Func<Particle> stream)
+        {
+            
+        }
+
         public void SetPosition(float deltaTime)
         {
             transform.position = PointPosition(deltaTime);
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
+        
 
         float pause;
 
