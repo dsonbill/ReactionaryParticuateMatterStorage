@@ -25,15 +25,20 @@ namespace UniversalMachine
 
                 float attack = 1 / 180 * angle;
 
-                Vector3 warpDirection = new Vector3(y.x * attack - x.x * attack,
-                    y.y * attack - x.y * attack,
-                    y.z * attack - x.z * attack);
+                float distance = (Position + (Direction * (Length / 2))).magnitude
+                    - (position + (x * (a.magnitude / 2))).magnitude;
 
-                Vector3 warpEnergy = Energy * Length;
+                Vector3 warpDirection = new Vector3(y.x, y.y, y.z);
+                Vector3 warpEnergy = Energy / Length;
                 Vector3 pathEnergy = energy * a.magnitude;
-                Vector3 warp = new Vector3((warpEnergy.x - pathEnergy.x) * warpDirection.x,
-                    (warpEnergy.y - pathEnergy.y) * warpDirection.y,
-                    (warpEnergy.z - pathEnergy.z) * warpDirection.z);
+
+                //Vector3 warp = new Vector3((warpEnergy.x - pathEnergy.x) * warpDirection.x,
+                //    (warpEnergy.y - pathEnergy.y) * warpDirection.y,
+                //    (warpEnergy.z - pathEnergy.z) * warpDirection.z);
+
+                Vector3 warp = warpDirection *
+                    (warpEnergy.magnitude / attack - pathEnergy.magnitude * attack) /
+                    distance;
 
                 return warp;
             }

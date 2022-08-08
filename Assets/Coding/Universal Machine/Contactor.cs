@@ -24,6 +24,8 @@ namespace UniversalMachine
         public DescriptorContactor Source;
         public PotentialHole Depths;
 
+        public SimpleShacle Binding;
+
         public List<Particle> Particles = new List<Particle>();
 
         System.Random r = new System.Random();
@@ -57,17 +59,21 @@ namespace UniversalMachine
             Vector3 bang = Source.transform.up * (float)Source.EnergyDensity * (float)Source.ParticleMass * (float)r.NextDouble();
 
             Vector3 initialForce = bang + new Vector3(fx, fy, fz);
-            Vector3 initialPosition = Source.transform.position + new Vector3(x, y, z);
+            Vector3 initialPosition = new Vector3(x, y, z);
             Vector3 initialEnergy = new Vector3(ex, ey, ez);
 
+            Debug.Log(initialPosition);
+
             GameObject particle = Instantiate(Particle, initialPosition, Quaternion.identity);
+            particle.transform.parent = transform;
+            particle.transform.localPosition = initialPosition;
             particle.SetActive(true);
 
             Particle p = particle.GetComponent<Particle>();
 
             p.Project = Marker.Project;
 
-            p.Position = new Vector4(particle.transform.position.x, particle.transform.position.y, particle.transform.position.z, 1);
+            p.Position = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
             p.Energy = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
             
             p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
@@ -77,33 +83,35 @@ namespace UniversalMachine
 
         void Update()
         {
-            foreach (Particle particle in Particles)
-            {
-                double energy = r.NextDouble() * Meaning.Energy();
-                double offset = r.NextDouble() * Meaning.Offset();
-                particle.AddForce(Vector3.one * (float)energy, Vector3.one * (float)offset, Time.deltaTime);
-            }
-        
-            foreach (Particle particle in Particles)
-            {
-                float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
-                double energy = Radiance.GetIntensity(distance);
-                Vector3 offset = Meaning.transform.right * (float)Radiance.GetReactivity(distance) * (float)energy;
-                particle.AddForce(offset, Vector3.zero, Time.deltaTime);
-            }
+            //foreach (Particle particle in Particles)
+            //{
+            //    double energy = r.NextDouble() * Meaning.Energy();
+            //    double offset = r.NextDouble() * Meaning.Offset();
+            //    particle.AddForce(Vector3.one * (float)energy, Vector3.one * (float)offset, Time.deltaTime);
+            //}
 
-            foreach (Particle particle in Particles)
-            {
-                float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
-                double energy = Source.EnergyDensity * Source.ParticleMass * distance;
-                Vector3 force = Source.transform.up * (float)energy;
-                particle.AddForce(force, Vector3.zero, Time.deltaTime);
-            }
+            //foreach (Particle particle in Particles)
+            //{
+            //    float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
+            //    double energy = Radiance.GetIntensity(distance);
+            //    Vector3 offset = Meaning.transform.right * (float)Radiance.GetReactivity(distance) * (float)energy;
+            //    particle.AddForce(offset, Vector3.zero, Time.deltaTime);
+            //}
 
-            Contacts.Exchange(Particles);
+            //foreach (Particle particle in Particles)
+            //{
+            //    float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
+            //    double energy = Source.EnergyDensity * Source.ParticleMass * distance;
+            //    Vector3 force = Source.transform.up * (float)energy;
+            //    particle.AddForce(force, Vector3.zero, Time.deltaTime);
+            //}
+            //
+            //Contacts.Exchange(Particles);
+            //
+            //Zone.Height = Meaning.Height;
+            //Zone.Friction(Particles);
 
-            Zone.Height = Meaning.Height;
-            Zone.Friction(Particles);
+            //Binding.Bind(Particles);
         }
     }
 }

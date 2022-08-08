@@ -25,6 +25,7 @@ namespace UniversalMachine
         public double ContactRatio;
 
         public Gradient ColorGradient;
+        public Gradient SecondaryColorGradient;
 
         float pTime;
         float sTime;
@@ -87,7 +88,7 @@ namespace UniversalMachine
             Secondary.localScale = new Vector3(SecondaryScale.x, SecondaryScale.y + ((float)Height / 4 * (float)ContactRatio), SecondaryScale.z);
 
             PrimaryMesh.material.color = ColorGradient.Evaluate(pTime);
-            SecondaryMesh.material.color = ColorGradient.Evaluate(sTime);
+            SecondaryMesh.material.color = SecondaryColorGradient.Evaluate(sTime);
         }
 
         public void Friction(List<Particle> particles)
@@ -100,7 +101,7 @@ namespace UniversalMachine
                 Vector3 rot = new Vector3(Secondary.rotation.x / 360, Secondary.rotation.y / 360, Secondary.rotation.z / 360);
                 Vector3 onset = offset + (Secondary.position + (rot * ((Secondary.localScale.x + Secondary.localScale.y) / 2)));
 
-                particle.AddForce(-onset.normalized * onset.magnitude, Vector3.one, Time.deltaTime);
+                particle.AddForce(-onset.normalized * onset.magnitude, Vector3.zero, Time.deltaTime);
 
                 //Left by that fucking bastard
             }

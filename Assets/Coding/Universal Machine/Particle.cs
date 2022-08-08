@@ -7,6 +7,7 @@ namespace UniversalMachine
     public class Particle : MonoBehaviour
     {
         public static float Nearest = 1.4013e-25f;
+        public static float EnergeticResistance = 10f;
 
         public class Folding
         {
@@ -72,7 +73,6 @@ namespace UniversalMachine
                 {
                     double syphon = 1 / Age * ContactDepth * regionalArea;
                     Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
-
                     return 1 / Energy.magnitude * ContactDepth / regionalArea - SlamConsideration;
                 });
             }
@@ -85,7 +85,7 @@ namespace UniversalMachine
                 return new Func<double, double>((regionalArea) =>
                 {
                     double fAvg = (Force.x + Force.y + Force.z) / 3;
-                    double syphon = 1 /  * ContactDepth * regionalArea;
+                    double syphon = 1 / ContactDepth * regionalArea;
                     Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
 
                     return 1 / Energy.magnitude * ContactDepth / regionalArea - SlamConsideration;
@@ -104,21 +104,14 @@ namespace UniversalMachine
             if (float.IsNaN(discernment) || discernment == 0)
             {
                 //Debug.Log("Lowered Dimensional Number: " + 0);
-                return 1 * deltaTime;
+                return deltaTime;
             }
 
-            return 1 / discernment * deltaTime;
+            return discernment * deltaTime;
         }
 
         public void AddForce(Vector3 f, Vector3 point, float deltaTime)
         {
-            //StringBuilder report = new StringBuilder();
-            //report.AppendLine("[Force Report]");
-            //report.AppendLine();
-
-            //report.AppendLine("Point Energy: " + PointEnergy(deltaTime));
-            //report.AppendLine();
-
             Vector3 contactForce;
             float energyMagnitude = PointEnergy(deltaTime).magnitude;
 
@@ -128,13 +121,13 @@ namespace UniversalMachine
             }
             else
             {
-                contactForce = f / energyMagnitude;
+                contactForce = f / (EnergeticResistance * energyMagnitude);
             }
 
             //report.AppendLine("Contact Force: " + contactForce);
             //report.AppendLine();
 
-            float totalDiscernment = Position.w * Energy.w * Mathf.Pow(Torque.w, 2) * Mathf.Sqrt(Force.w);
+            float totalDiscernment = Position.w * Energy.w * Mathf.Pow(Torque.w, 2) * Mathf.Pow(Force.w, 3);
             float discernmentRatio = GetDiscernmentRatio(totalDiscernment, deltaTime);
             //float discernmentRatio = 1 / totalIndiscernment;
             //float currentDiscernment = discernmentRatio * deltaTime;
@@ -164,21 +157,7 @@ namespace UniversalMachine
             IndiscernPositioning(discernmentRatio, deltaTime);
         }
 
-        public void IndiscernPositioning(float ratio, float deltaTime)
-        {
-            float x = r.Next(-1, 1) * (float)r.NextDouble() * Position.x * ratio;
-            float y = r.Next(-1, 1) * (float)r.NextDouble() * Position.y * ratio;
-            float z = r.Next(-1, 1) * (float)r.NextDouble() * Position.z * ratio;
-
-            Vector3 position = new Vector3(Position.x + x, Position.y + y, Position.z + z);
-
-            float discernment = Mathf.Sqrt(ratio / deltaTime);
-            float positionDimensionNumber = Position.w - discernment > 0 ? Position.w - discernment : 0;
-            float energyDimensionNumber = Energy.w - discernment > 0 ? Energy.w - discernment : 0;
-
-            Energy.w = energyDimensionNumber;
-            Position = new Vector4(position.x, position.y, position.z, positionDimensionNumber);
-        }
+        
 
         public Vector4 Cross(Vector4 vector1, Vector4 vector2)
         {
@@ -191,8 +170,8 @@ namespace UniversalMachine
 
         public float GetLoweredDimensionalNumber(Vector4 detail, float deltaTime)
         {
-            float theTime = 1 / 0.01f * deltaTime;
-            float number = 1 / detail.w * theTime;
+            float theTime = 100 * deltaTime;
+            float number = detail.w * theTime;
 
             if (float.IsNaN(number))
             {
@@ -210,8 +189,8 @@ namespace UniversalMachine
 
         public float GetDiscernmentNumber(float loweredDimensionalNumber)
         {
-            //return Mathf.Sin(Age) * loweredDimensionalNumber;
-            return loweredDimensionalNumber;
+            return Mathf.Sin(Age) * loweredDimensionalNumber;
+            //return loweredDimensionalNumber;
         }
         
         public Vector3 PointPosition(float deltaTime)
@@ -221,6 +200,11 @@ namespace UniversalMachine
             return pos - new Vector3(Position.x * GetDiscernmentNumber(t),
                 Position.y * GetDiscernmentNumber(t),
                 Position.z * GetDiscernmentNumber(t));
+
+            //return new Vector3(
+            //    Position.x * Position.w,
+            //    Position.y * Position.w,
+            //    Position.z * Position.w);
         }
 
         public Vector3 PointEnergy(float deltaTime)
@@ -283,35 +267,77 @@ namespace UniversalMachine
                 (Torque.z * discernmentRatio));
 
             Vector3 pPos = PointPosition(deltaTime);
-            //Debug.Log("A.0: " + pPos);
+            Vector3 pEnergy = PointEnergy(deltaTime);
+            Vector3 pTorque = PointTorque(deltaTime);
+            Vector3 pForce = PointForce(deltaTime);
 
-            Vector3 pos = new Vector3(pPos.x + force.x * torque.x, pPos.y + force.y * torque.y, pPos.z + force.z * torque.z);
-            //Debug.Log("A.1: " + pos);
-            Vector3 projectedPos = Project(pPos, pos, PointEnergy(deltaTime));
+            Vector3 pos = new Vector3(pPos.x + force.x * torque.x,
+                pPos.y + force.y * torque.y,
+                pPos.z + force.z * torque.z);
 
-            Position = new Vector4(projectedPos.x, projectedPos.y, projectedPos.z, 1);
-            Energy = new Vector4(Energy.x, Energy.y, Energy.z, 1);
+            Vector3 projectedPos = Project(pPos, pos, pEnergy);
 
+            float engMag = new Vector3(Energy.x, Energy.y, Energy.z).magnitude;
+            float pEngMag = pEnergy.magnitude;
+            float currentEngMag = engMag - pEngMag;
+
+            float energyUsage = 1 / engMag * currentEngMag;
+
+            Energy = new Vector4(Energy.x * energyUsage,
+                Energy.y * energyUsage,
+                Energy.z * energyUsage,
+                Energy.w - energyUsage > 0 ? Energy.w - energyUsage : 0);
+
+            float currentPosMag = Position.magnitude - projectedPos.magnitude;
+
+            float positionUsage = 1 / Position.magnitude * currentPosMag;
+
+            Position = new Vector4(projectedPos.x,
+                projectedPos.y,
+                projectedPos.z,
+                1);
+
+            IndiscernPositioning(positionUsage, deltaTime);
             IndiscernForceAndTorque(discernmentRatio, deltaTime);
 
             //Debug.Log("B: " + Position + " | " + Energy + " | " + Force + " | " + Torque);
         }
 
+        public void IndiscernPositioning(float ratio, float deltaTime)
+        {
+            float x = r.Next(-1, 1) * (float)r.NextDouble();
+            float y = r.Next(-1, 1) * (float)r.NextDouble();
+            float z = r.Next(-1, 1) * (float)r.NextDouble();
+
+            Vector3 discerned = new Vector3(Position.x * ratio, Position.y * ratio, Position.z * ratio);
+
+            Vector3 position = new Vector3(Position.x + x, Position.y + y, Position.z + z) - discerned;
+
+            float discernment = ratio * deltaTime;
+            float positionDimensionNumber = Position.w - discernment > 0 ? Position.w - discernment : 0;
+
+            Position = new Vector4(position.x, position.y, position.z, positionDimensionNumber);
+        }
+
         public void IndiscernForceAndTorque(float ratio, float deltaTime)
         {
-            float x = r.Next(-1, 1) * (float)r.NextDouble() * Force.x * ratio;
-            float y = r.Next(-1, 1) * (float)r.NextDouble() * Force.y * ratio;
-            float z = r.Next(-1, 1) * (float)r.NextDouble() * Force.z * ratio;
+            float x = r.Next(-1, 1) * (float)r.NextDouble();
+            float y = r.Next(-1, 1) * (float)r.NextDouble();
+            float z = r.Next(-1, 1) * (float)r.NextDouble();
 
-            Vector3 force = new Vector3(Force.x + x, Force.y + y, Force.z + z);
+            Vector3 force = new Vector3(Force.x + x - (Force.x * ratio),
+                Force.y + y - (Force.y * ratio),
+                Force.z + z - (Force.z * ratio));
 
-            x = r.Next(-1, 1) * (float)r.NextDouble() * Torque.x * ratio;
-            y = r.Next(-1, 1) * (float)r.NextDouble() * Torque.y * ratio;
-            z = r.Next(-1, 1) * (float)r.NextDouble() * Torque.z * ratio;
+            x = r.Next(-1, 1) * (float)r.NextDouble();
+            y = r.Next(-1, 1) * (float)r.NextDouble();
+            z = r.Next(-1, 1) * (float)r.NextDouble();
 
-            Vector3 torque = new Vector3(Torque.x + x, Torque.y + y, Torque.z + z);
+            Vector3 torque = new Vector3(Torque.x + x - (Torque.x * ratio),
+                Torque.y + y - (Torque.y * ratio),
+                Torque.z + z - (Torque.z * ratio));
 
-            float discernment = Mathf.Sqrt(ratio / deltaTime);
+            float discernment = ratio * deltaTime;
             float forceDimensionNumber = Force.w - discernment > 0 ? Force.w - discernment : 0;
             float torqueDimensionNumber = Torque.w - discernment > 0 ? Torque.w - discernment : 0;
 
@@ -333,7 +359,7 @@ namespace UniversalMachine
                     Spin();
                     break;
                 case FoldTarget.Force:
-                    Move();
+                    Move(Time.deltaTime);
                     break;
                 case FoldTarget.Unknown:
                     RPFS(Time.deltaTime);
@@ -420,7 +446,7 @@ namespace UniversalMachine
             return specifics;
         }
 
-        public Vector4 Move()
+        public Vector4 Move(float deltaTime)
         {
             float dimensionality = Energy.w + Position.w + Torque.w;
 
@@ -433,7 +459,7 @@ namespace UniversalMachine
             Vector3 tor = new Vector3(Torque.x * Torque.w, Torque.y * Torque.w, Torque.z * Torque.w);
             Torque = new Vector4();
 
-            Vector4 specifics = ener + pos + tor;
+            Vector4 specifics = new Vector3(ener.x * tor.x, ener.y * tor.y, ener.z * tor.z) + pos;
             specifics.w = dimensionality;
             return specifics;
         }
@@ -493,17 +519,14 @@ namespace UniversalMachine
 
         public void SetPosition(float deltaTime)
         {
-            transform.position = PointPosition(deltaTime);
+            transform.localPosition = PointPosition(deltaTime);
         }
-
-        
 
         float pause;
 
         // Update is called once per frame
         void FixedUpdate()
         {
-
             //if (pause < 1f)
             //{
             //    pause += Time.deltaTime;
@@ -516,7 +539,9 @@ namespace UniversalMachine
             Simulate(Time.deltaTime);
             //Advance(Time.deltaTime);
 
-            //SetPosition(Time.deltaTime);
+            SetPosition(Time.deltaTime);
+
+            //transform.localPosition = (Vector3)Move(Time.deltaTime);
         }
     }
 }

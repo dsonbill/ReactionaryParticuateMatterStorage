@@ -17,6 +17,8 @@ namespace UniversalMachine
 
         public double Height;
 
+        public double Axis;
+
         public CurvedText Text;
 
 
@@ -54,6 +56,8 @@ namespace UniversalMachine
             Disc.localPosition = new Vector3(Disc.localPosition.x, (float)Height, Disc.localPosition.z);
 
             Disc.Rotate(new Vector3(0, 1, 0), (float)RotationRate);
+
+            Axis = Disc.localRotation.y;
         }
     }
 }

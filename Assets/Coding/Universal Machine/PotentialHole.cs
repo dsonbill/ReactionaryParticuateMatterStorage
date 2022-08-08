@@ -23,7 +23,7 @@ namespace UniversalMachine
         // Update is called once per frame
         void Update()
         {
-            Hole.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
+            Hole.localScale = new Vector3((float)Diameter, Hole.localScale.y, (float)Diameter);
             Hole.localPosition = new Vector3(0, (float)Depth, 0);
         }
     }
