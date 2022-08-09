@@ -56,9 +56,10 @@ namespace UniversalMachine
             float ey = (float)Source.EnergyDensity * (float)r.NextDouble();
             float ez = (float)Source.EnergyDensity * (float)r.NextDouble();
 
-            Vector3 bang = Source.transform.up * (float)Source.EnergyDensity * (float)Source.ParticleMass * (float)r.NextDouble();
 
-            Vector3 initialForce = bang + new Vector3(fx, fy, fz);
+            //Vector3 bang = Source.transform.up * (float)Source.EnergyDensity * (float)Source.ParticleMass * (float)r.NextDouble();
+
+            Vector3 initialForce = new Vector3(fx, fy, fz);
             Vector3 initialPosition = new Vector3(x, y, z);
             Vector3 initialEnergy = new Vector3(ex, ey, ez);
 
@@ -72,9 +73,13 @@ namespace UniversalMachine
             Particle p = particle.GetComponent<Particle>();
 
             p.Project = Marker.Project;
-
+            
+            //ds967',[;/\'
+            
             p.Position = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
             p.Energy = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
+
+            p.ContactDepth = (float)Source.ParticleMass * (float)Zone.ContactRatio;
             
             p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
 
@@ -86,8 +91,8 @@ namespace UniversalMachine
             //foreach (Particle particle in Particles)
             //{
             //    double energy = r.NextDouble() * Meaning.Energy();
-            //    double offset = r.NextDouble() * Meaning.Offset();
-            //    particle.AddForce(Vector3.one * (float)energy, Vector3.one * (float)offset, Time.deltaTime);
+            //    Vector3 offset = Meaning.Offset();
+            //    particle.AddForce(Vector3.one * (float)energy, offset, Time.deltaTime);
             //}
 
             //foreach (Particle particle in Particles)
@@ -110,7 +115,7 @@ namespace UniversalMachine
             //
             //Zone.Height = Meaning.Height;
             //Zone.Friction(Particles);
-
+            //
             //Binding.Bind(Particles);
         }
     }

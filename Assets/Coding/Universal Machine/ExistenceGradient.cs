@@ -76,10 +76,10 @@ namespace UniversalMachine
                 sTime = 1;
             }
 
-            Position();
+            Manifest();
         }
 
-        void Position()
+        void Manifest()
         {
             Primary.localPosition = new Vector3(PrimaryPosition.x, PrimaryPosition.y + (float)Height / 2, PrimaryPosition.z);
             Primary.localScale = new Vector3(PrimaryScale.x, PrimaryScale.y + (float)Height / 4, PrimaryScale.z);
@@ -95,16 +95,21 @@ namespace UniversalMachine
         {
             foreach (Particle particle in particles)
             {
-                Vector3 particlePosition = new Vector3(particle.Position.x, particle.Position.y, particle.Position.z);
-                Vector3 offset = particlePosition - Primary.position;
-
-                Vector3 rot = new Vector3(Secondary.rotation.x / 360, Secondary.rotation.y / 360, Secondary.rotation.z / 360);
-                Vector3 onset = offset + (Secondary.position + (rot * ((Secondary.localScale.x + Secondary.localScale.y) / 2)));
-
+                Vector3 particlePosition = particle.PointPosition(Time.deltaTime);
+                Vector3 distance = particlePosition - Primary.localPosition;
+                
+                //Vector3 rot = new Vector3(Secondary.localRotation.x / 360, Secondary.localRotation.y / 360, Secondary.localRotation.z / 360);
+                Vector3 onset = distance +
+                    (Primary.localPosition +
+                    (new Vector3(Primary.localScale.x, Primary.localScale.y, Primary.localScale.z) / 2));
+                
                 particle.AddForce(-onset.normalized * onset.magnitude, Vector3.zero, Time.deltaTime);
-
-                //Left by that fucking bastard
+                                                      
+                //Left by that fucking bastard - I guess I was right after all!!
             }
+
+
+
         }
     }
 }

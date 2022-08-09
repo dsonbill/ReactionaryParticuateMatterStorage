@@ -1697,7 +1697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d27d369f5743ef44a3509784b4ca642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_queues: e4070000
+  m_queues: d9070000
 --- !u!1001 &940000507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2710,7 +2710,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6938490053742104453}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f619906bd3102c48a79128281904521, type: 3}
   m_Name: 
@@ -5354,11 +5354,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6938490052934432347, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6938490052934432357, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a5a67a585a2f30e499b18e56727622df, type: 2}
+    - target: {fileID: 6938490053584479746, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6938490053584479747, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_IsActive
@@ -5368,6 +5378,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.501
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490053828638923, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6938490053828638923, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5381,8 +5396,18 @@ PrefabInstance:
       objectReference: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 6938490054000995844, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
+      propertyPath: Binding
+      value: 0.967
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054000995844, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: Diameter
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054000995844, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996082, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5392,6 +5417,16 @@ PrefabInstance:
     - target: {fileID: 6938490054000996088, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: Depth
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054000996089, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: MassMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054000996089, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: EnergyDensity
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996090, guid: 7d103ba37e276f046ba1501854c7df96,
@@ -5512,7 +5547,7 @@ PrefabInstance:
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5559,6 +5594,11 @@ PrefabInstance:
       propertyPath: Binding
       value: 
       objectReference: {fileID: 1742248085}
+    - target: {fileID: 6938490054327419772, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
 --- !u!114 &7299600889545579806

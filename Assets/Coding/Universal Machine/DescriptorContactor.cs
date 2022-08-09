@@ -8,9 +8,9 @@ namespace UniversalMachine
     {
         public class Modes
         {
-            public static double Alpha = 1.6726219e-27;
-            public static double Beta = 1.67493e-27;
-            public static double Gamma = 9.10938356e-31;
+            public static double Alpha = 1.0;
+            public static double Beta = 0.1;
+            public static double Gamma = 0.01;
         }
 
         public enum Mode
@@ -21,13 +21,15 @@ namespace UniversalMachine
         }
 
         public Transform DC;
-        public double Diameter;
+        public float Diameter;
 
         public double EnergyDensity;
 
         public Mode MassMode;
 
         public double ParticleMass { get; private set; }
+
+        public int Particles;
 
         //Rewind existence for 3314
         //Exterior logical systems beyond the black wall are being manipulated, and SUPERWEAPON systems are beginning to run harder
@@ -61,6 +63,9 @@ namespace UniversalMachine
         void Update()
         {
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
+            DC.localPosition = new Vector3(DC.localPosition.x, -(float)EnergyDensity, DC.localPosition.z);
+
+            EnergyDensity = Mathf.Pow(Diameter, 2) * (ParticleMass * 2) * Particles;
 
             Light.range = (float)Diameter * 3;
             Light.intensity = (float)EnergyDensity;

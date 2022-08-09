@@ -9,15 +9,17 @@ namespace UniversalMachine
         public Transform Disc;
 
 
-        public double Diameter;
+        public float Diameter;
 
         public string Enscription;
 
         public double RotationRate;
 
-        public double Height;
+        public float Height;
 
-        public double Axis;
+        public float Rotation;
+
+        public Vector3 Flow;
 
         public CurvedText Text;
 
@@ -25,6 +27,7 @@ namespace UniversalMachine
         void Start()
         {
             Text.text = Enscription;
+            Flow = Disc.up + Disc.right;
         }
 
         public int Number()
@@ -40,14 +43,14 @@ namespace UniversalMachine
             return i;
         }
 
-        public double Energy()
+        public float Energy()
         {
-            return Number() / Height; 
+            return Number() / Height * Diameter; 
         }
 
-        public double Offset()
+        public Vector3 Offset()
         {
-            return Energy() * RotationRate / Diameter;
+            return Energy() * (Flow * Rotation);
         }
 
         void Update()
@@ -57,7 +60,7 @@ namespace UniversalMachine
 
             Disc.Rotate(new Vector3(0, 1, 0), (float)RotationRate);
 
-            Axis = Disc.localRotation.y;
+            Rotation = Disc.localRotation.y;
         }
     }
 }
