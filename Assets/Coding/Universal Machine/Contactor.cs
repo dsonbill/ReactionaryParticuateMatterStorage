@@ -32,6 +32,8 @@ namespace UniversalMachine
 
         void Awake()
         {
+            Source.Particles = InitialParticles;
+
             Well.OnDestroy = () => { BeginParticle(); };
 
             for (int i = 0; i < InitialParticles; i++)
@@ -63,7 +65,7 @@ namespace UniversalMachine
             Vector3 initialPosition = new Vector3(x, y, z);
             Vector3 initialEnergy = new Vector3(ex, ey, ez);
 
-            Debug.Log(initialPosition);
+            Debug.Log(initialEnergy);
 
             GameObject particle = Instantiate(Particle, initialPosition, Quaternion.identity);
             particle.transform.parent = transform;
@@ -86,36 +88,52 @@ namespace UniversalMachine
             Particles.Add(p);
         }
 
+        void EnscriptionDisc()
+        {
+            foreach (Particle particle in Particles)
+            {
+                double energy = r.NextDouble() * Meaning.Energy() / UniversalMachine.Particle.EnergeticResistance;
+                Vector3 offset = Meaning.Offset();
+
+                particle.AddForce(Vector3.one * (float)energy, offset, Time.deltaTime);
+            }
+        }
+
+        void DarkRadiance()
+        {
+            foreach (Particle particle in Particles)
+            {
+                float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
+                double energy = Radiance.GetIntensity(distance);
+                Vector3 offset = Meaning.transform.right * (float)Radiance.GetReactivity(distance) * (float)energy;
+                particle.AddForce(offset, Vector3.zero, Time.deltaTime);
+            }
+        }
+
+        void ContactorOutput()
+        {
+            foreach (Particle particle in Particles)
+            { 
+                float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
+                double energy = Source.EnergyDensity * Source.ParticleMass * distance;
+                Vector3 force = Source.transform.up * (float)energy;
+                particle.AddForce(force, Vector3.zero, Time.deltaTime);
+            }
+        }
+
         void Update()
         {
-            //foreach (Particle particle in Particles)
-            //{
-            //    double energy = r.NextDouble() * Meaning.Energy();
-            //    Vector3 offset = Meaning.Offset();
-            //    particle.AddForce(Vector3.one * (float)energy, offset, Time.deltaTime);
-            //}
-
-            //foreach (Particle particle in Particles)
-            //{
-            //    float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
-            //    double energy = Radiance.GetIntensity(distance);
-            //    Vector3 offset = Meaning.transform.right * (float)Radiance.GetReactivity(distance) * (float)energy;
-            //    particle.AddForce(offset, Vector3.zero, Time.deltaTime);
-            //}
-
-            //foreach (Particle particle in Particles)
-            //{
-            //    float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
-            //    double energy = Source.EnergyDensity * Source.ParticleMass * distance;
-            //    Vector3 force = Source.transform.up * (float)energy;
-            //    particle.AddForce(force, Vector3.zero, Time.deltaTime);
-            //}
-            //
+            //EnscriptionDisc();
+            
+            //DarkRadiance();
+            
+            //ContactorOutput();
+            
             //Contacts.Exchange(Particles);
-            //
+            
             //Zone.Height = Meaning.Height;
             //Zone.Friction(Particles);
-            //
+            
             //Binding.Bind(Particles);
         }
     }

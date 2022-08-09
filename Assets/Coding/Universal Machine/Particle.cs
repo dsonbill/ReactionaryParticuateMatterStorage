@@ -123,7 +123,7 @@ namespace UniversalMachine
             {
                 contactForce = f / KineticEasing * (energyMagnitude / EnergeticResistance) * ContactDepth;
             }
-
+ 
 
             float totalDiscernment = Position.w * Energy.w * Mathf.Pow(Torque.w, 2) * Mathf.Pow(Force.w, 3);
             float discernmentRatio = GetDiscernmentRatio(totalDiscernment, deltaTime);
@@ -286,8 +286,6 @@ namespace UniversalMachine
 
             IndiscernPositioning(positionUsage, deltaTime);
             IndiscernForceAndTorque(discernmentRatio, deltaTime);
-
-            //Debug.Log("B: " + Position + " | " + Energy + " | " + Force + " | " + Torque);
         }
 
         public void IndiscernPositioning(float ratio, float deltaTime)
