@@ -2842,7 +2842,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6938490053742104453}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f619906bd3102c48a79128281904521, type: 3}
   m_Name: 
@@ -5769,7 +5769,7 @@ PrefabInstance:
     - target: {fileID: 6938490054000995844, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996082, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5899,8 +5899,7 @@ PrefabInstance:
     - target: {fileID: 6938490054000996091, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: Enscription
-      value: Me and My Love Will Always Show. So go, Adia Mott, to the world that
-        you know.
+      value: The Great Info-Burst Processor's Debut! Unlock Ryzen3.Platform.Owner.WilliamCDonaldson.Process_EarlyWakeup()
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5915,7 +5914,7 @@ PrefabInstance:
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.006
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}

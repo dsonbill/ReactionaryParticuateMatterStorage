@@ -123,11 +123,11 @@ namespace UniversalMachine
 
         void Update()
         {
-            //EnscriptionDisc();
+            EnscriptionDisc();
             
             //DarkRadiance();
             
-            //ContactorOutput();
+            ContactorOutput();
             
             //Contacts.Exchange(Particles);
             

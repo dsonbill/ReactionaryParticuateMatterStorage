@@ -8,4 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Reactor.unity
     guid: 2d6d50761b0fe354389644aef69040a9
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: bf9ded1a95d4c3a4d95fc3df4eb52509,
+      type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: 2fc37b1047b43184aaf4518d5f1f33c5, type: 2}

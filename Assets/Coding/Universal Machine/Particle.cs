@@ -262,7 +262,7 @@ namespace UniversalMachine
 
             Vector3 projectedPos = Project(pPos, pos, pEnergy);
 
-            projectedPos = pos;
+            //projectedPos = pos;
 
             float engMag = new Vector3(Energy.x, Energy.y, Energy.z).normalized.magnitude;
             float pEngMag = pEnergy.normalized.magnitude;
@@ -273,9 +273,9 @@ namespace UniversalMachine
             Debug.Log("Usage:" + energyUsage);
 
             Energy = new Vector4(
-                Energy.x - Energy.x * energyUsage > 0 ? Energy.x - Energy.x * energyUsage : 0,
-                Energy.y - Energy.y * energyUsage > 0 ? Energy.y - Energy.y * energyUsage : 0,
-                Energy.z - Energy.z * energyUsage > 0 ? Energy.z - Energy.z * energyUsage : 0,
+                Energy.x - Energy.x * currentEngMag > 0 ? Energy.x - Energy.x * currentEngMag : 0,
+                Energy.y - Energy.y * currentEngMag > 0 ? Energy.y - Energy.y * currentEngMag : 0,
+                Energy.z - Energy.z * currentEngMag > 0 ? Energy.z - Energy.z * currentEngMag : 0,
                 Energy.w - energyUsage);
 
             Vector3 cPos = new Vector3(Position.x, Position.y, Position.z);
