@@ -2842,7 +2842,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6938490053742104453}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f619906bd3102c48a79128281904521, type: 3}
   m_Name: 
@@ -5769,7 +5769,7 @@ PrefabInstance:
     - target: {fileID: 6938490054000995844, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996082, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5899,10 +5899,8 @@ PrefabInstance:
     - target: {fileID: 6938490054000996091, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: Enscription
-      value: The First Flower was Born in a Field of Scorching Flames. Then God's
-        Love began to take hold - behold! The mess of all things and the enscription
-        of man that none can ascertain. No heaven nor is there a hell - only a place
-        we reach for when we ascertain.
+      value: Me and My Love Will Always Show. So go, Adia Mott, to the world that
+        you know.
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
@@ -5981,6 +5979,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054327419774, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
+      propertyPath: m_Color.b
+      value: 0.14860539
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054327419774, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.11650049
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054327419774, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.4811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 6938490054327419774, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -5999,7 +6012,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6938490054915645101, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6938490054434195093, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
+    - {fileID: 6938490052934432346, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

@@ -65,7 +65,7 @@ namespace UniversalMachine
             Vector3 initialPosition = new Vector3(x, y, z);
             Vector3 initialEnergy = new Vector3(ex, ey, ez);
 
-            Debug.Log(initialEnergy);
+            //Debug.Log(initialEnergy);
 
             GameObject particle = Instantiate(Particle, initialPosition, Quaternion.identity);
             particle.transform.parent = transform;
@@ -113,9 +113,9 @@ namespace UniversalMachine
         void ContactorOutput()
         {
             foreach (Particle particle in Particles)
-            { 
+            {
                 float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
-                double energy = Source.EnergyDensity * Source.ParticleMass * distance;
+                double energy = Source.EnergyDensity * Source.ParticleMass / distance;
                 Vector3 force = Source.transform.up * (float)energy;
                 particle.AddForce(force, Vector3.zero, Time.deltaTime);
             }

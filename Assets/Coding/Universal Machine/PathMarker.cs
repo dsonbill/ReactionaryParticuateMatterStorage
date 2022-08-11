@@ -48,7 +48,7 @@ namespace UniversalMachine
 
         public Vector3 Project(Vector3 start, Vector3 end, Vector3 energy)
         {
-            Vector3 final = end;
+            Vector3 final = Vector3.zero;
 
             foreach (Marker marker in Path)
             {
@@ -57,7 +57,7 @@ namespace UniversalMachine
 
             Move(start, end, energy);
 
-            return final;
+            return (final + end) / 2;
         }
 
         public void Move(Vector3 start, Vector3 end, Vector3 energy)

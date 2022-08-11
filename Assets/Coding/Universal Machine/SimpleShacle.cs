@@ -24,15 +24,15 @@ namespace UniversalMachine
         {
             foreach (Particle particle in particles)
             {
-                Vector2 localPosition = new Vector2(particle.Position.x, particle.Position.z) - new Vector2(Cylinder.transform.position.x, Cylinder.transform.position.z);
+                Vector2 localPosition = new Vector2(particle.Position.x, particle.Position.z) - new Vector2(Cylinder.transform.localPosition.x, Cylinder.transform.localPosition.z);
                 Vector2 direction = localPosition.normalized;
                 float distance = localPosition.magnitude;
 
-                float reduction = 1 / (Diameter * 2) * distance * (float)(Binding * r.NextDouble());
+                float reduction = 1 / (Diameter * 2) * distance * (float)(Binding);
 
                 Vector3 inwardForce = (-particle.PointForce(Time.deltaTime)) * reduction;
 
-                particle.AddForce(inwardForce, Vector3.zero, Time.deltaTime);
+                particle.AddForce(-direction * reduction, Vector3.zero, Time.deltaTime);
             }
         }
     }

@@ -262,27 +262,32 @@ namespace UniversalMachine
 
             Vector3 projectedPos = Project(pPos, pos, pEnergy);
 
-            float engMag = new Vector3(Energy.x, Energy.y, Energy.z).magnitude;
-            float pEngMag = pEnergy.magnitude;
+            projectedPos = pos;
+
+            float engMag = new Vector3(Energy.x, Energy.y, Energy.z).normalized.magnitude;
+            float pEngMag = pEnergy.normalized.magnitude;
             float currentEngMag = engMag - pEngMag;
 
-            float energyUsage = Energy.w / engMag * currentEngMag;
+            float energyUsage = Energy.w - currentEngMag > 0 ? Energy.w - currentEngMag : 0;
 
-            Energy = new Vector4(Energy.x * energyUsage,
-                Energy.y * energyUsage,
-                Energy.z * energyUsage,
-                Energy.w - energyUsage > 0 ? Energy.w - energyUsage : 0);
+            Debug.Log("Usage:" + energyUsage);
+
+            Energy = new Vector4(
+                Energy.x - Energy.x * energyUsage > 0 ? Energy.x - Energy.x * energyUsage : 0,
+                Energy.y - Energy.y * energyUsage > 0 ? Energy.y - Energy.y * energyUsage : 0,
+                Energy.z - Energy.z * energyUsage > 0 ? Energy.z - Energy.z * energyUsage : 0,
+                Energy.w - energyUsage);
 
             Vector3 cPos = new Vector3(Position.x, Position.y, Position.z);
 
             float currentPosMag = cPos.magnitude - projectedPos.magnitude;
-
-            float positionUsage = Position.w / cPos.magnitude * currentPosMag;
+            
+            float positionUsage = Position.w / (1 / cPos.magnitude * currentPosMag);
 
             Position = new Vector4(projectedPos.x,
                 projectedPos.y,
                 projectedPos.z,
-                Position.w - positionUsage > 0 ? Position.w - positionUsage : 0);
+                Position.w);
 
             IndiscernPositioning(positionUsage, deltaTime);
             IndiscernForceAndTorque(discernmentRatio, deltaTime);

@@ -45,12 +45,12 @@ namespace UniversalMachine
 
         public float Energy()
         {
-            return Number() / Height * Diameter; 
+            return Number() / Height * Diameter;
         }
 
         public Vector3 Offset()
         {
-            return Energy() * (Flow * Rotation);
+            return Flow * Rotation * Diameter;
         }
 
         void Update()
