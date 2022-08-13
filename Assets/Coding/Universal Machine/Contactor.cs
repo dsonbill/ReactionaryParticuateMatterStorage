@@ -95,7 +95,7 @@ namespace UniversalMachine
                 double energy = r.NextDouble() * Meaning.Energy() / UniversalMachine.Particle.EnergeticResistance;
                 Vector3 offset = Meaning.Offset();
 
-                particle.AddForce(Vector3.one * (float)energy, offset, Time.deltaTime);
+                particle.AddForce(Meaning.transform.up * (float)energy, offset, Time.deltaTime);
             }
         }
 
@@ -121,7 +121,7 @@ namespace UniversalMachine
             }
         }
 
-        void Update()
+        void FixedUpdate()
         {
             EnscriptionDisc();
             

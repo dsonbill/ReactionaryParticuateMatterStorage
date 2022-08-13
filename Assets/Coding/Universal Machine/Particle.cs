@@ -10,6 +10,7 @@ namespace UniversalMachine
         public static float EnergeticResistance = 10f;
         public static float DimensionalDelta = 10f;
         public static float KineticEasing = 100f;
+        public static float ContactWindow = 0.01f;
 
         public class Folding
         {
@@ -62,7 +63,7 @@ namespace UniversalMachine
                      double syphon = 1 / Energy.magnitude * ContactDepth / regionalArea;
                      Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
 
-                     return 1 / Energy.magnitude * ContactDepth * regionalArea - SlamConsideration;
+                     return 1 / ((Vector3)Energy).magnitude / ContactWindow * ContactDepth;
                  });
             }
         }
@@ -75,7 +76,7 @@ namespace UniversalMachine
                 {
                     double syphon = 1 / Age * ContactDepth * regionalArea;
                     Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
-                    return 1 / Energy.magnitude * ContactDepth / regionalArea - SlamConsideration;
+                    return 1 / ((Vector3)Energy).magnitude / ContactWindow * ContactDepth;
                 });
             }
         }
@@ -90,7 +91,7 @@ namespace UniversalMachine
                     double syphon = fAvg * ContactDepth / regionalArea;
                     Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
 
-                    return 1 / Energy.magnitude * ContactDepth / regionalArea - SlamConsideration;
+                    return 1 / ((Vector3)Energy).magnitude  / regionalArea * ContactDepth;
                 });
             }
         }
@@ -264,25 +265,9 @@ namespace UniversalMachine
 
             //projectedPos = pos;
 
-            float engMag = new Vector3(Energy.x, Energy.y, Energy.z).normalized.magnitude;
-            float pEngMag = pEnergy.normalized.magnitude;
-            float currentEngMag = engMag - pEngMag;
-
-            float energyUsage = Energy.w - currentEngMag > 0 ? Energy.w - currentEngMag : 0;
-
-            Debug.Log("Usage:" + energyUsage);
-
-            Energy = new Vector4(
-                Energy.x - Energy.x * currentEngMag > 0 ? Energy.x - Energy.x * currentEngMag : 0,
-                Energy.y - Energy.y * currentEngMag > 0 ? Energy.y - Energy.y * currentEngMag : 0,
-                Energy.z - Energy.z * currentEngMag > 0 ? Energy.z - Energy.z * currentEngMag : 0,
-                Energy.w - energyUsage);
-
-            Vector3 cPos = new Vector3(Position.x, Position.y, Position.z);
-
-            float currentPosMag = cPos.magnitude - projectedPos.magnitude;
+            float currentPosMag = pPos.magnitude - projectedPos.magnitude;
             
-            float positionUsage = Position.w / (1 / cPos.magnitude * currentPosMag);
+            float positionUsage = Position.w - (1 / pPos.magnitude * currentPosMag);
 
             Position = new Vector4(projectedPos.x,
                 projectedPos.y,

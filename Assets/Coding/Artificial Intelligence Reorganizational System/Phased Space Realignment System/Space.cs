@@ -106,6 +106,8 @@ public class Space : MonoBehaviour
                 //Debug.Log(x);
 
                 Available.Add(arr);
+
+                Debug.Log("Delta Applicator Entry: [" + arr[0] + "," + arr[1] + "," + arr[2] + "]");
             }
 
             if (tick == 0f)
