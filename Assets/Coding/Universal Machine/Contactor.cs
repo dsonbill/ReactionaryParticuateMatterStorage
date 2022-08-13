@@ -44,11 +44,11 @@ namespace UniversalMachine
 
         public void BeginParticle()
         {
-            
 
-            float x = (float)Source.Diameter / 2 * (float)r.NextDouble();
+
+            float x = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
             float y = (float)Source.Diameter / 2 * (float)r.NextDouble();
-            float z = (float)Source.Diameter / 2 * (float)r.NextDouble();
+            float z = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
 
             float fx = (float)Source.ParticleMass * (float) r.NextDouble();
             float fy = (float)Source.ParticleMass * (float)r.NextDouble();
@@ -81,7 +81,7 @@ namespace UniversalMachine
             p.Position = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
             p.Energy = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
 
-            p.ContactDepth = (float)Source.ParticleMass * (float)Zone.ContactRatio;
+            p.ContactDepth = (float)Contacts.ContactDepth * (float)Source.ParticleMass * (float)Zone.ContactRatio;
             
             p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
 

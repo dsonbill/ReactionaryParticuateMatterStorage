@@ -60,10 +60,15 @@ namespace UniversalMachine
             {
                 return new Func<double, double>((regionalArea) =>
                  {
-                     double syphon = 1 / Energy.magnitude * ContactDepth / regionalArea;
-                     Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
+                     double syphon = 1 / ((Vector3)Energy).magnitude * (ContactDepth / regionalArea);
 
-                     return 1 / ((Vector3)Energy).magnitude / ContactWindow * ContactDepth;
+                     Energy = new Vector4(
+                         Energy.x - Energy.x * (float)syphon,
+                         Energy.y - Energy.y * (float)syphon,
+                         Energy.z - Energy.z * (float)syphon,
+                         Energy.w - Energy.w * (float)syphon < 0 ? 0 : Energy.w - Energy.w * (float)syphon);
+
+                     return syphon * ContactWindow;
                  });
             }
         }
@@ -75,8 +80,14 @@ namespace UniversalMachine
                 return new Func<double, double>((regionalArea) =>
                 {
                     double syphon = 1 / Age * ContactDepth * regionalArea;
-                    Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
-                    return 1 / ((Vector3)Energy).magnitude / ContactWindow * ContactDepth;
+                    
+                    Energy = new Vector4(
+                        Energy.x - Energy.x * (float)syphon,
+                        Energy.y - Energy.y * (float)syphon,
+                        Energy.z - Energy.z * (float)syphon,
+                        Energy.w - Energy.w * (float)syphon < 0 ? 0 : Energy.w - Energy.w * (float)syphon);
+                    
+                    return syphon * ContactWindow;
                 });
             }
         }
@@ -88,10 +99,15 @@ namespace UniversalMachine
                 return new Func<double, double>((regionalArea) =>
                 {
                     double fAvg = (Force.x + Force.y + Force.z) / 3;
-                    double syphon = fAvg * ContactDepth / regionalArea;
-                    Energy = new Vector4(Energy.x, Energy.y, Energy.z, Energy.w > 2 ? 2 : Energy.w + (float)syphon);
+                    double syphon = 1 / fAvg * ContactDepth / regionalArea;
 
-                    return 1 / ((Vector3)Energy).magnitude  / regionalArea * ContactDepth;
+                    Energy = new Vector4(
+                        Energy.x - Energy.x * (float)syphon,
+                        Energy.y - Energy.y * (float)syphon,
+                        Energy.z - Energy.z * (float)syphon,
+                        Energy.w - Energy.w * (float)syphon < 0 ? 0 : Energy.w - Energy.w * (float)syphon);
+
+                    return syphon * ContactWindow;
                 });
             }
         }
@@ -257,9 +273,9 @@ namespace UniversalMachine
             Vector3 pTorque = PointTorque(deltaTime);
             Vector3 pForce = PointForce(deltaTime);
 
-            Vector3 pos = new Vector3(pPos.x + force.x * torque.x,
-                pPos.y + force.y * torque.y,
-                pPos.z + force.z * torque.z);
+            Vector3 pos = new Vector3(pPos.x + force.x * torque.x / pEnergy.x,
+                pPos.y + force.y * torque.y / pEnergy.y,
+                pPos.z + force.z * torque.z / pEnergy.z);
 
             Vector3 projectedPos = Project(pPos, pos, pEnergy);
 

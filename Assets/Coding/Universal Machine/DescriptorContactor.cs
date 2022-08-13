@@ -57,6 +57,22 @@ namespace UniversalMachine
             }
         }
 
+        void ParticulateCoDensifier()
+        {
+            switch (MassMode)
+            {
+                case Mode.Alpha:
+                    ParticleMass = Modes.Alpha * EnergyDensity / Particles;
+                    break;
+                case Mode.Beta:
+                    ParticleMass = Modes.Beta * EnergyDensity / Particles;
+                    break;
+                case Mode.Gamma:
+                    ParticleMass = Modes.Gamma * EnergyDensity / Particles;
+                    break;
+            }
+        }
+
         
 
         // Update is called once per frame
@@ -65,10 +81,12 @@ namespace UniversalMachine
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
             DC.localPosition = new Vector3(DC.localPosition.x, -(float)EnergyDensity, DC.localPosition.z);
 
-            EnergyDensity = Mathf.Pow(Diameter, 2) * (ParticleMass * 2) * Particles;
+            EnergyDensity = Mathf.Pow((float)ParticleMass, 2) * (Diameter * 2) * Particles;
 
             Light.range = (float)Diameter * 3;
             Light.intensity = (float)EnergyDensity;
+
+            ParticulateCoDensifier();
         }
     }
 }
