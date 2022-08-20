@@ -82,8 +82,7 @@ namespace UniversalMachine
         void Manifest()
         {
             Primary.localPosition = new Vector3(PrimaryPosition.x, PrimaryPosition.y + (float)Height / 2, PrimaryPosition.z);
-            Primary.localScale = new Vector3(PrimaryScale.x, PrimaryScale.y + (float)Height / 4, PrimaryScale.z);
-
+                                                                                                                             
             Secondary.localPosition = new Vector3(SecondaryPosition.x, SecondaryPosition.y + ((float)Height / 2 * (float)ContactRatio), SecondaryPosition.z);
             Secondary.localScale = new Vector3(SecondaryScale.x, SecondaryScale.y + ((float)Height / 4 * (float)ContactRatio), SecondaryScale.z);
 
@@ -97,11 +96,11 @@ namespace UniversalMachine
             {
                 Vector3 particlePosition = particle.PointPosition(Time.deltaTime);
                 Vector3 distance = particlePosition - Primary.localPosition;
-                
+                                                                                                                                                                     
                 //Vector3 rot = new Vector3(Secondary.localRotation.x / 360, Secondary.localRotation.y / 360, Secondary.localRotation.z / 360);
                 Vector3 onset = distance +
-                    (Primary.localPosition +
-                    (new Vector3(Primary.localScale.x, Primary.localScale.y, Primary.localScale.z) / 2));
+                    (Primary.localPosition +                                                (new Vector3(Primary
+.localScale.x, Primary.localScale.y, Primary.localScale.z) / 2));
                 
                 particle.AddForce(-onset.normalized * onset.magnitude, Vector3.zero, Time.deltaTime);
                                                       
