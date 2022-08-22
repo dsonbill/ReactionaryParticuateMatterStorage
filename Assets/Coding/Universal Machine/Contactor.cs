@@ -6,10 +6,6 @@ namespace UniversalMachine
 {
     public class Contactor : MonoBehaviour
     {
-        public GameObject Particle;
-
-        public int InitialParticles;
-
         public EnscribedDisc Meaning;
         public LightSource Radiance;
 
@@ -32,23 +28,17 @@ namespace UniversalMachine
 
         void Awake()
         {
-            Source.Ascriptions = () => {  };
-
+            EnscriptionDiscSetup();
             ContactorSetup();
             DispensarySetup();
+            ExistenceSetup();
         }
 
         
 
-        void EnscriptionDisc()
+        void EnscriptionDiscSetup()
         {
-            foreach (Particle particle in UnitQuanta)
-            {
-                double energy = r.NextDouble() * Meaning.Energy() / UniversalMachine.Particle.EnergeticResistance;
-                Vector3 offset = Meaning.Offset();
-
-                particle.AddForce(Meaning.transform.up * (float)energy, offset, Time.deltaTime);
-            }
+            Meaning.Quanta = () => { return UnitQuanta; };
         }
 
         void DarkRadiance()
@@ -71,20 +61,33 @@ namespace UniversalMachine
         void DispensarySetup()
         {
             Well.OnDestroy = () => { Well.Quanta--; };
-            Well.Approach = () => { return (float)Source.AscriptiveQuanta; };
+            Well.Approach = () => { return (float)Source.AssertationScale; };
             Well.SafetyZone = () => { return Source.Diameter; };
 
             Well.IndexParticle = (p) => { UnitQuanta.Add(p); };
-            
+            Well.DeindexParticle = (p) => { UnitQuanta.Remove(p); };
+
+            Well.ProjectionReceivance = () => { return Marker.Project; };
+
+            Well.ExistentCapacity = () => { return (float)Source.Reach; };
+            Well.ContactDepth = () => { return (float)Source.UnitAscriptiveDensity; };
+
+            Well.SpawnAction = (p) =>
+            {
+                Source.Birth(p);
+            };
+        }
+
+        void ExistenceSetup()
+        {
+            Zone.Quanta = () => { return UnitQuanta; };
         }
 
         void FixedUpdate()
         {
-            EnscriptionDisc();
+            
             
             //DarkRadiance();
-            
-            ContactorOutput();
             
             //Contacts.Exchange(Particles);
             

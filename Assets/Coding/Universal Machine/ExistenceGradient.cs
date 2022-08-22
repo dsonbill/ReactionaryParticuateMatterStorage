@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +39,8 @@ namespace UniversalMachine
         public Gradient SecondaryColorGradient;
 
         public float Substantiation;
+
+        public Func<List<Particle>> Quanta;
 
         float pTime;
         float sTime;
@@ -116,17 +119,19 @@ namespace UniversalMachine
             Manifest();
 
             CalculateEnergy();
+
+            Friction();
         }
 
         void CalculateArena()
         {
             PrimaryPosition = new Vector3(Position.x, (float)(Distance / 2), Position.y);
-            PrimaryScale = Mul(Primary.transform.localScale, new Vector3((float)Diameter, (float)(Distance / 2), (float)Diameter));
+            PrimaryScale = new Vector3((float)Diameter, (float)(Distance / 2), (float)Diameter);
 
             SecondaryPosition = Mul(PrimaryPosition, new Vector3(1, Contact.y, 1));
             SecondaryScale = Mul(PrimaryScale, new Vector3(Contact.x, Contact.y, Contact.x));
 
-            Precession = Quaternion.AngleAxis(Contact.z * precessionDelta, Bifurcation);
+            Precession = Quaternion.AngleAxis(1 / 360 * (Contact.z * precessionDelta), Bifurcation);
         }
 
         void Manifest()
@@ -136,21 +141,24 @@ namespace UniversalMachine
 
             Secondary.localPosition = SecondaryPosition;
             Secondary.localScale = SecondaryScale;
+            Secondary.localRotation = Precession;
 
             PrimaryMesh.material.color = ColorGradient.Evaluate(pTime);
             SecondaryMesh.material.color = SecondaryColorGradient.Evaluate(sTime);
         }
 
-        public void Friction(List<Particle> particles)
+        public void Friction()
         {
-            foreach (Particle particle in particles)
+            foreach (Particle particle in Quanta())
             {
                 Vector3 offset = particle.transform.position - Primary.position;
                 float distance = offset.magnitude;
                 Vector3 direction = offset.normalized;
 
                 Vector3 force = direction * distance * Substantiation;
-                Vector3 torque = Bifurcation * Contact.z * precessionDelta * distance * Substantiation;
+                Vector3 torque = Bifurcation * distance * Substantiation;
+
+                particle.AddForce(-force, Vector3.one + torque, Time.deltaTime);
 
                 //Vector3 rot = new Vector3(Secondary.localRotation.x / 360, Secondary.localRotation.y / 360, Secondary.localRotation.z / 360);
                 //Vector3 onset = distance +

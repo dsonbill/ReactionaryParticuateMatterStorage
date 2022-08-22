@@ -29,6 +29,8 @@ namespace UniversalMachine
         public Action<Particle> IndexParticle;
         public Action<Particle> DeindexParticle;
 
+        public Action<Particle> SpawnAction;
+
 
 
         System.Random r = new System.Random();
@@ -96,7 +98,9 @@ namespace UniversalMachine
 
             IndexParticle(p);
 
-            p.onDestroy += () => { OnDestroy(); } ;
+            p.onDestroy += () => { OnDestroy(); };
+
+            SpawnAction(p);
         }
     }
 }

@@ -1,6 +1,7 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 namespace UniversalMachine
 {
@@ -22,6 +23,10 @@ namespace UniversalMachine
         public Vector3 Flow;
 
         public CurvedText Text;
+
+        public Func<List<Particle>> Quanta;
+
+        System.Random r = new System.Random();
 
 
         void Start()
@@ -61,6 +66,24 @@ namespace UniversalMachine
             Disc.Rotate(new Vector3(0, 1, 0), (float)RotationRate);
 
             Rotation = Disc.localRotation.y;
+        }
+
+        void ApplyForce(Particle particle)
+        {
+            double energy = r.NextDouble() * Energy() / UniversalMachine.Particle.EnergeticResistance;
+            //Vector3 offset = Offset();
+
+            Vector3 offset = Vector3.one;
+
+            particle.AddForce(transform.up * (float)energy, offset, Time.deltaTime);
+        }
+
+        void FixedUpdate()
+        {
+            foreach(Particle unit in Quanta())
+            {
+                ApplyForce(unit);
+            }
         }
     }
 }

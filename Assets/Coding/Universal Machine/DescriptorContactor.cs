@@ -63,6 +63,8 @@ namespace UniversalMachine
 
         public Func<float> ContactRatio;
 
+        public Queue<Particle> Contacts = new Queue<Particle>();
+
         double ExchangeRate
         {
             get
@@ -113,10 +115,17 @@ namespace UniversalMachine
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
 
             float penetration = Mathf.Pow(Diameter, 2) * ContactRatio();
-            DC.localPosition = new Vector3(DC.localPosition.x, (float)(1 / AssertationScale * TotalAscriptiveForce), DC.localPosition.z);
+            DC.localPosition = new Vector3(DC.localPosition.x, (float)(1 / penetration * TotalAscriptiveForce), DC.localPosition.z);
 
             Light.range = (float)Diameter * 2 / Ascriptions();
             Light.intensity = (float)AssertationScale / Ascriptions();
+
+            ContactQuantum();
+        }
+
+        public void Birth(Particle quantum)
+        {
+            Contacts.Enqueue(quantum);
         }
 
         void Contact(Particle particle)
@@ -124,10 +133,18 @@ namespace UniversalMachine
             float distance = Vector3.Distance(transform.position, particle.transform.position);
             double ascription = UnitAscriptiveDensity / distance;
 
-            Vector3 direction = particle.transform.position - transform.position;
+            Vector3 direction = (particle.transform.position - transform.position).normalized;
             Vector3 force = direction * (float)ascription;
 
-            particle.AddForce(force, Vector3.zero, Time.deltaTime);
+            particle.AddForce(force, Vector3.one, Time.deltaTime);
         }
+
+        void ContactQuantum()
+        {
+            while (Contacts.Count > 0)
+            {
+                Contact(Contacts.Dequeue());
+            }
+        }    
     }
 }
