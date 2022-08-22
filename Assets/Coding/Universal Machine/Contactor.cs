@@ -69,8 +69,8 @@ namespace UniversalMachine
 
             Well.ProjectionReceivance = () => { return Marker.Project; };
 
-            Well.ExistentCapacity = () => { return (float)Source.Reach; };
-            Well.ContactDepth = () => { return (float)Source.UnitAscriptiveDensity; };
+            Well.ExistentCapacity = () => { return (float)Source.UnitAscriptiveDensity; };
+            Well.ContactDepth = () => { return (float)Source.ContactRatio() * (float)Source.UnitAscriptiveDensity; };
 
             Well.SpawnAction = (p) =>
             {

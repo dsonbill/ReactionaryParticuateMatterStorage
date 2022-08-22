@@ -126,7 +126,7 @@ namespace UniversalMachine
         void CalculateArena()
         {
             PrimaryPosition = new Vector3(Position.x, (float)(Distance / 2), Position.y);
-            PrimaryScale = new Vector3((float)Diameter, (float)(Distance / 2), (float)Diameter);
+            PrimaryScale = new Vector3((float)Diameter, (float)(Distance), (float)Diameter);
 
             SecondaryPosition = Mul(PrimaryPosition, new Vector3(1, Contact.y, 1));
             SecondaryScale = Mul(PrimaryScale, new Vector3(Contact.x, Contact.y, Contact.x));
@@ -145,7 +145,7 @@ namespace UniversalMachine
 
             PrimaryMesh.material.color = ColorGradient.Evaluate(pTime);
             SecondaryMesh.material.color = SecondaryColorGradient.Evaluate(sTime);
-        }
+        } 
 
         public void Friction()
         {

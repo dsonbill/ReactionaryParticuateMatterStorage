@@ -10,6 +10,8 @@ namespace UniversalMachine
     {
         public GameObject Prefabricant;
 
+        public GameObject QuantaTree;
+
         public Action OnDestroy;
 
         public int Quanta;
@@ -56,30 +58,27 @@ namespace UniversalMachine
         }
 
         public void BeginParticle()
-        {
-            float x = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
-            float y = SafetyZone() * (float)r.NextDouble();
-            float z = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
+        { 
+            float x = (float)r.NextDouble(); // (float)Source.Diameter / 2 * (float)r.NextDouble();
+            float y = SafetyZone() + (float)r.NextDouble();
+            float z = (float)r.NextDouble(); // (float)Source.Diameter / 2 * (float)r.NextDouble();
 
             float fx = Approach() * (float)r.NextDouble();
             float fy = Approach() * (float)r.NextDouble();
             float fz = Approach() * (float)r.NextDouble();
 
-            float ex = ExistentCapacity() * (float)r.NextDouble();
-            float ey = ExistentCapacity() * (float)r.NextDouble();
-            float ez = ExistentCapacity() * (float)r.NextDouble();
-
+            double ascriptiveDensity = ExistentCapacity() * (float)r.NextDouble();
 
             //Vector3 bang = Source.transform.up * (float)Source.EnergyDensity * (float)Source.ParticleMass * (float)r.NextDouble();
 
             Vector3 initialForce = new Vector3(fx, fy, fz);
             Vector3 initialPosition = new Vector3(x, y, z);
-            Vector3 initialEnergy = new Vector3(ex, ey, ez);
+            Vector3 initialEnergy = Vector3.one * (float)ascriptiveDensity;
 
             //Debug.Log(initialEnergy);
 
             GameObject particle = Instantiate(Prefabricant, initialPosition, Quaternion.identity);
-            particle.transform.parent = transform;
+            particle.transform.parent = QuantaTree.transform;
             particle.transform.localPosition = initialPosition;
             particle.SetActive(true);
 
@@ -92,9 +91,9 @@ namespace UniversalMachine
             p.Position = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
             p.Energy = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
 
-            p.ContactDepth = ContactDepth() * (float)r.NextDouble();
+            p.ContactDepth = ContactDepth(); // * (float)r.NextDouble();
 
-            p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
+            p.AddForce(initialForce, Vector3.one, Time.deltaTime);
 
             IndexParticle(p);
 

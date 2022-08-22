@@ -140,7 +140,7 @@ namespace UniversalMachine
             }
             else
             {
-                contactForce = f / KineticEasing * (energyMagnitude / EnergeticResistance) * ContactDepth;
+                contactForce = f / (KineticEasing * (energyMagnitude / EnergeticResistance)) * ContactDepth;
             }
  
 
@@ -156,10 +156,11 @@ namespace UniversalMachine
                 1f);
 
             Vector3 pt = PointTorque(deltaTime);
-            Vector4 torqueDiscerned = new Vector4(pt.x, pt.y, pt.z, 0.5f);
-            Torque = torqueDiscerned + Cross(
-                new Vector4(point.x, point.y, point.z, 1),
-                new Vector4(f.x / KineticEasing, f.y / KineticEasing, f.z / KineticEasing, 0.5f));
+            Torque = new Vector4(
+                pt.x + point.x,
+                pt.y + point.y,
+                pt.z + point.z,
+                1f);
         }
 
         
@@ -209,12 +210,12 @@ namespace UniversalMachine
         public Vector3 PointPosition(float deltaTime)
         {
             float t = GetLoweredDimensionalNumber(Position, deltaTime);
-            Vector3 pos = new Vector3(Position.x, Position.y, Position.z);
-            return pos - new Vector3(
+            Vector3 pPosition =  new Vector3(
                 Position.x * GetDiscernmentNumber(t),
                 Position.y * GetDiscernmentNumber(t),
                 Position.z * GetDiscernmentNumber(t)
                 );
+            return pPosition;
 
             //return new Vector3(
             //    Position.x * Position.w,
@@ -225,34 +226,34 @@ namespace UniversalMachine
         public Vector3 PointEnergy(float deltaTime)
         {
             float t = GetLoweredDimensionalNumber(Energy, deltaTime);
-            Vector3 poe = new Vector3(Energy.x, Energy.y, Energy.z);
-            return poe - new Vector3(
+            Vector3 pEnergy = new Vector3(
                 Energy.x * GetDiscernmentNumber(t),
                 Energy.y * GetDiscernmentNumber(t),
                 Energy.z * GetDiscernmentNumber(t)
                 );
+            return pEnergy;
         }
 
         public Vector3 PointForce(float deltaTime)
         {
             float t = GetLoweredDimensionalNumber(Force, deltaTime);
-            Vector3 foe = new Vector3(Force.x, Force.y, Force.z);
-            return foe - new Vector3(
+            Vector3 pForce = new Vector3(
                 Force.x * GetDiscernmentNumber(t),
                 Force.y * GetDiscernmentNumber(t),
                 Force.z * GetDiscernmentNumber(t)
                 );
+            return pForce;
         }
 
         public Vector3 PointTorque(float deltaTime)
         {
             float t = GetLoweredDimensionalNumber(Torque, deltaTime);
-            Vector3 torq = new Vector3(Torque.x, Torque.y, Torque.z);
-            return torq - new Vector3(
+            Vector3 pTorque = new Vector3(
                 Torque.x * GetDiscernmentNumber(t),
                 Torque.y * GetDiscernmentNumber(t),
                 Torque.z * GetDiscernmentNumber(t)
                 );
+            return pTorque;
         }
 
         public Vector3 TotalEnergy()
@@ -279,30 +280,20 @@ namespace UniversalMachine
             float totalDiscernment = Force.w * Torque.w;
             float discernmentRatio = GetDiscernmentRatio(totalDiscernment, deltaTime);
 
-            Vector3 force = new Vector3(
-                (Force.x * discernmentRatio),
-                (Force.y * discernmentRatio),
-                (Force.z * discernmentRatio)
-                );
-
-            Vector3 torque = new Vector3(
-                (Torque.x * discernmentRatio),
-                (Torque.y * discernmentRatio),
-                (Torque.z * discernmentRatio)
-                );
-
             Vector3 pPos = PointPosition(deltaTime);
             Vector3 pEnergy = PointEnergy(deltaTime);
             Vector3 pTorque = PointTorque(deltaTime);
             Vector3 pForce = PointForce(deltaTime);
 
             Vector3 pos = new Vector3(
-                pPos.x + ((force.x * torque.x) / pEnergy.x),
-                pPos.y + ((force.y * torque.y) / pEnergy.y),
-                pPos.z + ((force.z * torque.z) / pEnergy.z)
+                pPos.x + ((pForce.x * pTorque.x)), // / pEnergy.x),
+                pPos.y + ((pForce.y * pTorque.y)), // / pEnergy.y),
+                pPos.z + ((pForce.z * pTorque.z)) // / pEnergy.z)
                 );
 
             Vector3 projectedPos = Project(pPos, pos, pEnergy);
+
+            float discrnUp = Position.w / ((Vector3)Position).magnitude * projectedPos.magnitude;
 
             //projectedPos = pos;
 
@@ -313,7 +304,7 @@ namespace UniversalMachine
             Position = new Vector4(projectedPos.x,
                 projectedPos.y,
                 projectedPos.z,
-                Position.w);
+                discrnUp);
 
             IndiscernPositioning(positionUsage, deltaTime);
             IndiscernForceAndTorque(discernmentRatio, deltaTime);
