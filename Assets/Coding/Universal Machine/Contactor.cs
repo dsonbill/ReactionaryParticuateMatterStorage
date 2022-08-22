@@ -26,22 +26,23 @@ namespace UniversalMachine
 
         public SimpleShacle Binding;
 
-        public List<Particle> Particles = new List<Particle>();
+        public List<Particle> UnitQuanta = new List<Particle>();
 
         System.Random r = new System.Random();
 
         void Awake()
         {
-            Source.Particles = () => { return InitialParticles; };
+            Source.Ascriptions = () => {  };
 
-            
+            ContactorSetup();
+            DispensarySetup();
         }
 
         
 
         void EnscriptionDisc()
         {
-            foreach (Particle particle in Particles)
+            foreach (Particle particle in UnitQuanta)
             {
                 double energy = r.NextDouble() * Meaning.Energy() / UniversalMachine.Particle.EnergeticResistance;
                 Vector3 offset = Meaning.Offset();
@@ -52,7 +53,7 @@ namespace UniversalMachine
 
         void DarkRadiance()
         {
-            foreach (Particle particle in Particles)
+            foreach (Particle particle in UnitQuanta)
             {
                 float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
                 double energy = Radiance.GetIntensity(distance);
@@ -63,17 +64,18 @@ namespace UniversalMachine
 
         void ContactorSetup()
         {
-            Source.Ascriptions = () => { }; //Particle Counter Function
-            Source.ContactRatio = () => { }; //Unit/Area Contact Ratio Amount
+            Source.Ascriptions = () => { return UnitQuanta.Count; }; //Particle Counter Function
+            Source.ContactRatio = () => { return (float)(1 / Zone.Diameter * Source.Diameter);  }; //Unit/Area Contact Ratio Amount
         }
 
         void DispensarySetup()
         {
-            Well.OnDestroy = () => { Well.Particles--; };
-            Well.ParticleMass = () => { return (float)Source.AscriptiveQuanta; };
+            Well.OnDestroy = () => { Well.Quanta--; };
+            Well.Approach = () => { return (float)Source.AscriptiveQuanta; };
             Well.SafetyZone = () => { return Source.Diameter; };
 
-            Well.IndexParticle = (p) => { Particles.Add(p); };
+            Well.IndexParticle = (p) => { UnitQuanta.Add(p); };
+            
         }
 
         void FixedUpdate()

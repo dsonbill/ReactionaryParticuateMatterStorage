@@ -53,6 +53,9 @@ namespace UniversalMachine
 
         public float ContactDepth;
 
+        public delegate void OnDestroyAction();
+        public OnDestroyAction onDestroy;
+
         public Func<double, double> PrimaryReduction
         {
             get
@@ -574,6 +577,11 @@ namespace UniversalMachine
             SetPosition(Time.deltaTime);
 
             //transform.localPosition = (Vector3)Move(Time.deltaTime);
+        }
+
+        void OnDestroy()
+        {
+            onDestroy?.Invoke();
         }
     }
 }

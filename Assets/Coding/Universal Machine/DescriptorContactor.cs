@@ -112,6 +112,7 @@ namespace UniversalMachine
         {
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
 
+            float penetration = Mathf.Pow(Diameter, 2) * ContactRatio();
             DC.localPosition = new Vector3(DC.localPosition.x, (float)(1 / AssertationScale * TotalAscriptiveForce), DC.localPosition.z);
 
             Light.range = (float)Diameter * 2 / Ascriptions();

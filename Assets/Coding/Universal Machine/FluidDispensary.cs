@@ -8,15 +8,15 @@ namespace UniversalMachine
 {
     public class FluidDispensary : MonoBehaviour
     {
-        public GameObject ParticleAscription;
+        public GameObject Prefabricant;
 
         public Action OnDestroy;
 
-        public int Particles;
+        public int Quanta;
 
-        public int MaxParticles;
+        public int Range;
 
-        public Func<float> ParticleMass;
+        public Func<float> Approach;
 
         public Func<float> SafetyZone;
 
@@ -27,6 +27,7 @@ namespace UniversalMachine
         public Func<float> ContactDepth;
 
         public Action<Particle> IndexParticle;
+        public Action<Particle> DeindexParticle;
 
 
 
@@ -36,29 +37,31 @@ namespace UniversalMachine
         void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.GetComponent<Particle>() != null)
-            Destroy(collision.gameObject);
-            OnDestroy?.Invoke();
+            {
+                DeindexParticle(collision.gameObject.GetComponent<Particle>());
+                Destroy(collision.gameObject);
+            }
         }
 
         void Update()
         {
-            for (int i = Particles; i < MaxParticles; i++)
+            for (int i = Quanta; i < Range; i++)
             {
                 BeginParticle();
             }
-            Particles = MaxParticles;
+            Quanta = Range;
 
         }
 
         public void BeginParticle()
         {
             float x = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
-            float y = SafetyZone() / 2 * (float)r.NextDouble();
+            float y = SafetyZone() * (float)r.NextDouble();
             float z = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
 
-            float fx = ParticleMass() * (float)r.NextDouble();
-            float fy = ParticleMass() * (float)r.NextDouble();
-            float fz = ParticleMass() * (float)r.NextDouble();
+            float fx = Approach() * (float)r.NextDouble();
+            float fy = Approach() * (float)r.NextDouble();
+            float fz = Approach() * (float)r.NextDouble();
 
             float ex = ExistentCapacity() * (float)r.NextDouble();
             float ey = ExistentCapacity() * (float)r.NextDouble();
@@ -73,7 +76,7 @@ namespace UniversalMachine
 
             //Debug.Log(initialEnergy);
 
-            GameObject particle = Instantiate(ParticleAscription, initialPosition, Quaternion.identity);
+            GameObject particle = Instantiate(Prefabricant, initialPosition, Quaternion.identity);
             particle.transform.parent = transform;
             particle.transform.localPosition = initialPosition;
             particle.SetActive(true);
@@ -92,6 +95,8 @@ namespace UniversalMachine
             p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
 
             IndexParticle(p);
+
+            p.onDestroy += () => { OnDestroy(); } ;
         }
     }
 }

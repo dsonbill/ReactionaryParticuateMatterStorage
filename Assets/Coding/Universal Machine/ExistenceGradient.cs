@@ -15,18 +15,29 @@ namespace UniversalMachine
         public MeshRenderer PrimaryMesh;
         public MeshRenderer SecondaryMesh;
 
+        public double Diameter;
+        public double Distance;
+
+        public Vector2 Position;
+
+        public Vector3 Bifurcation;
+
         Vector3 PrimaryPosition;
-        Vector3 SecondaryPosition;
         Vector3 PrimaryScale;
+
+        Vector3 SecondaryPosition;
         Vector3 SecondaryScale;
 
-        public double Height;
-        public double ContactRatio;
+        Quaternion Precession = Quaternion.identity;
+        float precessionDelta = 0f;
+
+        // x: Diameter, y: Height, z: Angular, w: Precessional
+        public Vector4 Contact;
 
         public Gradient ColorGradient;
         public Gradient SecondaryColorGradient;
 
-        public float EnergyDensity;
+        public float Substantiation;
 
         float pTime;
         float sTime;
@@ -34,10 +45,7 @@ namespace UniversalMachine
         // Start is called before the first frame update
         void Start()
         {
-            PrimaryPosition = Primary.transform.localPosition;
-            SecondaryPosition = Secondary.transform.localPosition;
-            PrimaryScale = Primary.transform.localScale;
-            SecondaryScale = Secondary.transform.localScale;
+            CalculateArena();
 
             //ColorGradient = new Gradient();
             //colorKey = new GradientColorKey[Colors.Count];
@@ -60,7 +68,16 @@ namespace UniversalMachine
             //ColorGradient.SetKeys(colorKey, alphaKey);
             //ColorGradient.mode = GradientMode.Blend;
 
-            sTime = 0.84f;
+            sTime = 1 ;
+        }
+
+        public Vector3 Mul(Vector3 vector1, Vector3 vector2)
+        {
+            return new Vector3(
+                vector1.x * vector2.x,
+                vector1.y * vector2.y,
+                vector1.z * vector2.z
+                );
         }
 
         void CalculateEnergy()
@@ -71,11 +88,11 @@ namespace UniversalMachine
             Color offsetColor = PrimaryMesh.material.color - SecondaryMesh.material.color;
             float stateOffset = (offsetColor.r + offsetColor.g + offsetColor.b) / 3;
 
-            EnergyDensity = positionOffset * rotationalOffset;
+            Substantiation = positionOffset * (1 / 360 * rotationalOffset);
         }
 
 
-        void Update()
+        void FixedUpdate()
         {
             pTime += Time.deltaTime;
             sTime -= Time.deltaTime;
@@ -88,17 +105,37 @@ namespace UniversalMachine
                 sTime = 1;
             }
 
+            precessionDelta += Time.deltaTime;
+            if (precessionDelta >= 1f)
+            {
+                precessionDelta = 0f;
+            }
+
+            CalculateArena();
+
             Manifest();
 
             CalculateEnergy();
         }
 
+        void CalculateArena()
+        {
+            PrimaryPosition = new Vector3(Position.x, (float)(Distance / 2), Position.y);
+            PrimaryScale = Mul(Primary.transform.localScale, new Vector3((float)Diameter, (float)(Distance / 2), (float)Diameter));
+
+            SecondaryPosition = Mul(PrimaryPosition, new Vector3(1, Contact.y, 1));
+            SecondaryScale = Mul(PrimaryScale, new Vector3(Contact.x, Contact.y, Contact.x));
+
+            Precession = Quaternion.AngleAxis(Contact.z * precessionDelta, Bifurcation);
+        }
+
         void Manifest()
         {
-            Primary.localPosition = new Vector3(PrimaryPosition.x, PrimaryPosition.y + (float)Height / 2, PrimaryPosition.z);
+            Primary.localPosition = PrimaryPosition;
+            Primary.localScale = PrimaryScale;
 
-            Secondary.localPosition = new Vector3(SecondaryPosition.x, SecondaryPosition.y + ((float)Height / 2 * (float)ContactRatio), SecondaryPosition.z);
-            Secondary.localScale = new Vector3(SecondaryScale.x, SecondaryScale.y + ((float)Height / 4 * (float)ContactRatio), SecondaryScale.z);
+            Secondary.localPosition = SecondaryPosition;
+            Secondary.localScale = SecondaryScale;
 
             PrimaryMesh.material.color = ColorGradient.Evaluate(pTime);
             SecondaryMesh.material.color = SecondaryColorGradient.Evaluate(sTime);
@@ -108,15 +145,18 @@ namespace UniversalMachine
         {
             foreach (Particle particle in particles)
             {
-                Vector3 particlePosition = particle.PointPosition(Time.deltaTime);
-                Vector3 distance = particlePosition - Primary.localPosition;
+                Vector3 offset = particle.transform.position - Primary.position;
+                float distance = offset.magnitude;
+                Vector3 direction = offset.normalized;
+
+                Vector3 force = direction * distance * Substantiation;
+                Vector3 torque = Bifurcation * Contact.z * precessionDelta * distance * Substantiation;
 
                 //Vector3 rot = new Vector3(Secondary.localRotation.x / 360, Secondary.localRotation.y / 360, Secondary.localRotation.z / 360);
-                Vector3 onset = distance +
-                    (Primary.localPosition + (new Vector3(Primary
-.localScale.x, Primary.localScale.y, Primary.localScale.z) / 2));
+                //Vector3 onset = distance +
+                //    (Primary.localPosition + (new Vector3(Primary.localScale.x, Primary.localScale.y, Primary.localScale.z) / 2));
 
-                particle.AddForce(-onset.normalized * onset.magnitude, Vector3.zero, Time.deltaTime);
+                //particle.AddForce(-onset.normalized * onset.magnitude, Vector3.zero, Time.deltaTime);
 
                 //Left by that fucking bastard - I guess I was right after all!!
             }
