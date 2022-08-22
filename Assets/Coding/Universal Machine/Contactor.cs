@@ -34,9 +34,7 @@ namespace UniversalMachine
         {
             Source.Particles = () => { return InitialParticles; };
 
-            Well.OnDestroy = () => { Well.Particles--; };
-            Well.ParticleMass = () => { return (float)Source.AscriptiveQuanta; };
-            Well.SafetyZone = () => { return Source.Diameter; };
+            
         }
 
         
@@ -63,15 +61,19 @@ namespace UniversalMachine
             }
         }
 
-        void ContactorOutput()
+        void ContactorSetup()
         {
-            foreach (Particle particle in Particles)
-            {
-                float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
-                double energy = Source.EnergyDensity * Source.AscriptiveQuanta / distance;
-                Vector3 force = Source.transform.up * (float)energy;
-                particle.AddForce(force, Vector3.zero, Time.deltaTime);
-            }
+            Source.Ascriptions = () => { }; //Particle Counter Function
+            Source.ContactRatio = () => { }; //Unit/Area Contact Ratio Amount
+        }
+
+        void DispensarySetup()
+        {
+            Well.OnDestroy = () => { Well.Particles--; };
+            Well.ParticleMass = () => { return (float)Source.AscriptiveQuanta; };
+            Well.SafetyZone = () => { return Source.Diameter; };
+
+            Well.IndexParticle = (p) => { Particles.Add(p); };
         }
 
         void FixedUpdate()

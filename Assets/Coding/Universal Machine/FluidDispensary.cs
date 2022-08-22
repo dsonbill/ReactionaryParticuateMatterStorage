@@ -26,6 +26,8 @@ namespace UniversalMachine
 
         public Func<float> ContactDepth;
 
+        public Action<Particle> IndexParticle;
+
 
 
         System.Random r = new System.Random();
@@ -89,7 +91,7 @@ namespace UniversalMachine
 
             p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
 
-            Particles.Add(p);
+            IndexParticle(p);
         }
     }
 }

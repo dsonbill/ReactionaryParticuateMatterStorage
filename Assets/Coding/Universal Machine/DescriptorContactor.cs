@@ -1,3 +1,4 @@
+using MoonSharp.VsCodeDebugger.SDK;
 using System;                                                                                                                                                                                                                    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,34 +105,28 @@ namespace UniversalMachine
 
         }
 
-        void ParticulateCoDensifier()
-        {
-            switch (ExistorClass)
-            {
-                case ExistentClassification.Alpha:
-                    AscriptiveQuanta = ClassAscription.Alpha * ExistentialCapacity / Particles();
-                    break;
-                case ExistentClassification.Beta:
-                    AscriptiveQuanta = ClassAscription.Beta * ExistentialCapacity / Particles();
-                    break;
-                case ExistentClassification.Gamma:
-                    AscriptiveQuanta = ClassAscription.Gamma * ExistentialCapacity / Particles();
-                    break;
-            }
-        }
-
 
 
         // Update is called once per frame
         void FixedUpdate()
         {
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
-            DC.localPosition = new Vector3(DC.localPosition.x, DC.localPosition.y -(float)ExistentialCapacity, DC.localPosition.z);
 
-            Light.range = (float)Diameter * 3 / Ascriptions();
+            DC.localPosition = new Vector3(DC.localPosition.x, (float)(1 / AssertationScale * TotalAscriptiveForce), DC.localPosition.z);
+
+            Light.range = (float)Diameter * 2 / Ascriptions();
             Light.intensity = (float)AssertationScale / Ascriptions();
+        }
 
-            ParticulateCoDensifier();
+        void Contact(Particle particle)
+        {
+            float distance = Vector3.Distance(transform.position, particle.transform.position);
+            double ascription = UnitAscriptiveDensity / distance;
+
+            Vector3 direction = particle.transform.position - transform.position;
+            Vector3 force = direction * (float)ascription;
+
+            particle.AddForce(force, Vector3.zero, Time.deltaTime);
         }
     }
 }
