@@ -11,6 +11,8 @@ namespace UniversalMachine
 
         public Light Light;
 
+        public List<Particle> Particles = new List<Particle>();
+
         // ABCDEFG 12345 |\|\|\  [786]  ~~
         //1234567890.2601346790
 
@@ -31,6 +33,14 @@ namespace UniversalMachine
         {
             Light.intensity = (float)Intensity;
             Light.range = (float)Potential;
+        }
+
+        void FixedUpdate()
+        {
+            foreach (Particle particle in Particles)
+            {
+                
+            }
         }
     }
 }

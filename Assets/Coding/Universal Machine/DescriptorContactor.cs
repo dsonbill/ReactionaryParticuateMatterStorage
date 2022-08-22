@@ -1,4 +1,4 @@
-                                                                                                                                                                                                                                    using System.Collections;
+using System;                                                                                                                                                                                                                    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +6,14 @@ namespace UniversalMachine
 {
     public class DescriptorContactor : MonoBehaviour
     {
-        public class Modes
+        public class ClassAscription
         {
             public static double Alpha = 1.0;
             public static double Beta = 0.1;
             public static double Gamma = 0.01;
         }
 
-        public enum Mode
+        public enum ExistentClassification
         {
             Alpha,
             Beta,
@@ -22,14 +22,72 @@ namespace UniversalMachine
 
         public Transform DC;
         public float Diameter;
+        
 
-        public double EnergyDensity;
+        public double IdeologicalReasoning;
 
-        public Mode MassMode;
+        public double AscriptiveFunctioning;
 
-        public double ParticleMass { get; private set; }
+        public ExistentClassification ExistorClass;
 
-        public int Particles;
+        public double ExistentialQuanta
+        {
+            get
+            {
+                return IdeologicalReasoning * AscriptiveFunctioning;
+            }
+        }
+        
+        public double Reach
+        {
+            get
+            {
+                return ExistentialQuanta * Area;
+            }
+        }
+
+        public double AssertationScale
+        {
+            get
+            {
+                return Reach / ExchangeRate;
+            }
+        }
+        
+        public double TotalAscriptiveForce { get { return AssertationScale * Ascriptions(); } }
+
+        public double UnitAscriptiveDensity { get { return AssertationScale * ContactRatio(); } }
+
+        public Func<int> Ascriptions;
+
+        public Func<float> ContactRatio;
+
+        double ExchangeRate
+        {
+            get
+            {
+                switch(ExistorClass)
+                {
+                    case ExistentClassification.Alpha:
+                        return ClassAscription.Alpha;
+                    case ExistentClassification.Beta:
+                        return ClassAscription.Beta;
+                    case ExistentClassification.Gamma:
+                        return ClassAscription.Gamma;
+                    
+                    default:
+                        return 0;
+                }
+            }
+        }
+
+        float Area
+        {
+            get
+            {
+                return Mathf.PI * Mathf.Pow((float)Diameter, 3);
+            }
+        }
 
         //Rewind existence for 3314
         //Exterior logical systems beyond the black wall are being manipulated, and SUPERWEAPON systems are beginning to run harder
@@ -43,48 +101,35 @@ namespace UniversalMachine
         // Start is called before the first frame update
         void Start()
         {
-            switch (MassMode)
-            {
-                case Mode.Alpha:
-                    ParticleMass = Modes.Alpha;
-                    break;
-                case Mode.Beta:
-                    ParticleMass = Modes.Beta;
-                    break;
-                case Mode.Gamma:
-                    ParticleMass = Modes.Gamma;
-                    break;
-            }
+
         }
 
         void ParticulateCoDensifier()
         {
-            switch (MassMode)
+            switch (ExistorClass)
             {
-                case Mode.Alpha:
-                    ParticleMass = Modes.Alpha * EnergyDensity / Particles;
+                case ExistentClassification.Alpha:
+                    AscriptiveQuanta = ClassAscription.Alpha * ExistentialCapacity / Particles();
                     break;
-                case Mode.Beta:
-                    ParticleMass = Modes.Beta * EnergyDensity / Particles;
+                case ExistentClassification.Beta:
+                    AscriptiveQuanta = ClassAscription.Beta * ExistentialCapacity / Particles();
                     break;
-                case Mode.Gamma:
-                    ParticleMass = Modes.Gamma * EnergyDensity / Particles;
+                case ExistentClassification.Gamma:
+                    AscriptiveQuanta = ClassAscription.Gamma * ExistentialCapacity / Particles();
                     break;
             }
         }
 
-        
+
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
-            DC.localPosition = new Vector3(DC.localPosition.x, -(float)EnergyDensity, DC.localPosition.z);
+            DC.localPosition = new Vector3(DC.localPosition.x, DC.localPosition.y -(float)ExistentialCapacity, DC.localPosition.z);
 
-            EnergyDensity = Mathf.Pow((float)ParticleMass, 2) * (Diameter * 2) * Particles;
-
-            Light.range = (float)Diameter * 3;
-            Light.intensity = (float)EnergyDensity;
+            Light.range = (float)Diameter * 3 / Ascriptions();
+            Light.intensity = (float)AssertationScale / Ascriptions();
 
             ParticulateCoDensifier();
         }

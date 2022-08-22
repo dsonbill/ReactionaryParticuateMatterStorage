@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +25,8 @@ namespace UniversalMachine
 
         public Gradient ColorGradient;
         public Gradient SecondaryColorGradient;
+
+        public float EnergyDensity;
 
         float pTime;
         float sTime;
@@ -62,6 +63,17 @@ namespace UniversalMachine
             sTime = 0.84f;
         }
 
+        void CalculateEnergy()
+        {
+            float positionOffset = Vector3.Distance(Primary.localPosition, Secondary.localPosition);
+            float rotationalOffset = Quaternion.Angle(Primary.localRotation, Secondary.localRotation);
+
+            Color offsetColor = PrimaryMesh.material.color - SecondaryMesh.material.color;
+            float stateOffset = (offsetColor.r + offsetColor.g + offsetColor.b) / 3;
+
+            EnergyDensity = positionOffset * rotationalOffset;
+        }
+
 
         void Update()
         {
@@ -77,12 +89,14 @@ namespace UniversalMachine
             }
 
             Manifest();
+
+            CalculateEnergy();
         }
 
         void Manifest()
         {
             Primary.localPosition = new Vector3(PrimaryPosition.x, PrimaryPosition.y + (float)Height / 2, PrimaryPosition.z);
-                                                                                                                             
+
             Secondary.localPosition = new Vector3(SecondaryPosition.x, SecondaryPosition.y + ((float)Height / 2 * (float)ContactRatio), SecondaryPosition.z);
             Secondary.localScale = new Vector3(SecondaryScale.x, SecondaryScale.y + ((float)Height / 4 * (float)ContactRatio), SecondaryScale.z);
 
@@ -96,14 +110,14 @@ namespace UniversalMachine
             {
                 Vector3 particlePosition = particle.PointPosition(Time.deltaTime);
                 Vector3 distance = particlePosition - Primary.localPosition;
-                                                                                                                                                                     
+
                 //Vector3 rot = new Vector3(Secondary.localRotation.x / 360, Secondary.localRotation.y / 360, Secondary.localRotation.z / 360);
                 Vector3 onset = distance +
-                    (Primary.localPosition +                                                (new Vector3(Primary
+                    (Primary.localPosition + (new Vector3(Primary
 .localScale.x, Primary.localScale.y, Primary.localScale.z) / 2));
-                
+
                 particle.AddForce(-onset.normalized * onset.magnitude, Vector3.zero, Time.deltaTime);
-                                                      
+
                 //Left by that fucking bastard - I guess I was right after all!!
             }
 

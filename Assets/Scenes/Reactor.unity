@@ -5980,6 +5980,11 @@ PrefabInstance:
       propertyPath: Binding
       value: 
       objectReference: {fileID: 1742248085}
+    - target: {fileID: 6938490054000996093, guid: 7d103ba37e276f046ba1501854c7df96,
+        type: 3}
+      propertyPath: InitialParticles
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 6938490054078724343, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_Layer

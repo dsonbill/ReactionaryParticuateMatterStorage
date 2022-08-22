@@ -32,61 +32,14 @@ namespace UniversalMachine
 
         void Awake()
         {
-            Source.Particles = InitialParticles;
+            Source.Particles = () => { return InitialParticles; };
 
-            Well.OnDestroy = () => { BeginParticle(); };
-
-            for (int i = 0; i < InitialParticles; i++)
-            {
-                BeginParticle();
-            }
+            Well.OnDestroy = () => { Well.Particles--; };
+            Well.ParticleMass = () => { return (float)Source.AscriptiveQuanta; };
+            Well.SafetyZone = () => { return Source.Diameter; };
         }
 
-        public void BeginParticle()
-        {
-
-
-            float x = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
-            float y = (float)Source.Diameter / 2 * (float)r.NextDouble();
-            float z = 0; // (float)Source.Diameter / 2 * (float)r.NextDouble();
-
-            float fx = (float)Source.ParticleMass * (float) r.NextDouble();
-            float fy = (float)Source.ParticleMass * (float)r.NextDouble();
-            float fz = (float)Source.ParticleMass * (float)r.NextDouble();
-
-            float ex = (float)Source.EnergyDensity * (float)r.NextDouble();
-            float ey = (float)Source.EnergyDensity * (float)r.NextDouble();
-            float ez = (float)Source.EnergyDensity * (float)r.NextDouble();
-
-
-            //Vector3 bang = Source.transform.up * (float)Source.EnergyDensity * (float)Source.ParticleMass * (float)r.NextDouble();
-
-            Vector3 initialForce = new Vector3(fx, fy, fz);
-            Vector3 initialPosition = new Vector3(x, y, z);
-            Vector3 initialEnergy = new Vector3(ex, ey, ez);
-
-            //Debug.Log(initialEnergy);
-
-            GameObject particle = Instantiate(Particle, initialPosition, Quaternion.identity);
-            particle.transform.parent = transform;
-            particle.transform.localPosition = initialPosition;
-            particle.SetActive(true);
-
-            Particle p = particle.GetComponent<Particle>();
-
-            p.Project = Marker.Project;
-            
-            //ds967',[;/\'
-            
-            p.Position = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
-            p.Energy = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
-
-            p.ContactDepth = (float)Contacts.ContactDepth * (float)Source.ParticleMass * (float)Zone.ContactRatio;
-            
-            p.AddForce(initialForce, Vector3.zero, Time.deltaTime);
-
-            Particles.Add(p);   
-        }
+        
 
         void EnscriptionDisc()
         {
@@ -115,7 +68,7 @@ namespace UniversalMachine
             foreach (Particle particle in Particles)
             {
                 float distance = Vector3.Distance(Source.transform.position, particle.PointPosition(Time.deltaTime));
-                double energy = Source.EnergyDensity * Source.ParticleMass / distance;
+                double energy = Source.EnergyDensity * Source.AscriptiveQuanta / distance;
                 Vector3 force = Source.transform.up * (float)energy;
                 particle.AddForce(force, Vector3.zero, Time.deltaTime);
             }
