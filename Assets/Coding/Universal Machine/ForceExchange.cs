@@ -25,9 +25,9 @@ namespace UniversalMachine
                         pEn.y * (float)ContactDepth * (float)ExchangerRatio,
                         pEn.z * (float)ContactDepth * (float)ExchangerRatio);
 
-                    Vector3 dir = (a.Position - b.Position).normalized;
+                    Vector3 dir = (a.Attunement - b.Attunement).normalized;
 
-                    float distance = Vector4.Distance(a.Position, b.Position);
+                    float distance = Vector4.Distance(a.Attunement, b.Attunement);
                     distance = Mathf.Pow(distance, 2);
 
                     a.AddForce(force / distance, b.PointPosition(Time.deltaTime) + dir, Time.deltaTime);

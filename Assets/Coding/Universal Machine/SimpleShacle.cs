@@ -24,7 +24,7 @@ namespace UniversalMachine
         {
             foreach (Particle particle in particles)
             {
-                Vector2 localPosition = new Vector2(particle.Position.x, particle.Position.z) - new Vector2(Cylinder.transform.localPosition.x, Cylinder.transform.localPosition.z);
+                Vector2 localPosition = new Vector2(particle.Attunement.x, particle.Attunement.z) - new Vector2(Cylinder.transform.localPosition.x, Cylinder.transform.localPosition.z);
                 Vector2 direction = localPosition.normalized;
                 float distance = localPosition.magnitude;
 

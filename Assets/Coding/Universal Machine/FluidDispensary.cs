@@ -16,7 +16,7 @@ namespace UniversalMachine
 
         public int Quanta;
 
-        public int Range;
+        public Func<int> Range;
 
         public Func<float> Approach;
 
@@ -49,11 +49,11 @@ namespace UniversalMachine
 
         void Update()
         {
-            for (int i = Quanta; i < Range; i++)
+            for (int i = Quanta; i < Range(); i++)
             {
                 BeginParticle();
             }
-            Quanta = Range;
+            Quanta = Range();
 
         }
 
@@ -88,8 +88,8 @@ namespace UniversalMachine
 
             //ds967',[;/\'
 
-            p.Position = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
-            p.Energy = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
+            p.Attunement = new Vector4(initialPosition.x, initialPosition.y, initialPosition.z, 1);
+            p.Ascription = new Vector4(initialEnergy.x, initialEnergy.y, initialEnergy.z, 1);
 
             p.ContactDepth = ContactDepth(); // * (float)r.NextDouble();
 

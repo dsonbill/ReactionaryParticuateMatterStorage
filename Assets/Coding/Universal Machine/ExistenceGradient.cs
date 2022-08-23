@@ -114,11 +114,11 @@ namespace UniversalMachine
                 precessionDelta = 0f;
             }
 
+
+            CalculateEnergy();
             CalculateArena();
 
             Manifest();
-
-            CalculateEnergy();
 
             Friction();
         }

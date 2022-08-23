@@ -60,6 +60,8 @@ namespace UniversalMachine
 
         void DispensarySetup()
         {
+            Well.Range = () => { return (int)Source.AssertationScale; };
+
             Well.OnDestroy = () => { Well.Quanta--; };
             Well.Approach = () => { return (float)Source.AssertationScale; };
             Well.SafetyZone = () => { return Source.Diameter; };
