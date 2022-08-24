@@ -4814,42 +4814,42 @@ PrefabInstance:
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.818
+      value: -8.817999
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.361
+      value: 1.36112
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.346
+      value: 11.346002
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9775352
+      value: 0.9775302
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.003129914
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.21077223
+      value: 0.21077116
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.0006748593
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -0.367
       objectReference: {fileID: 0}
     - target: {fileID: 3444553995344315590, guid: 44b5ff7aa22682146bc2c56756ab174f,
         type: 3}
@@ -5611,6 +5611,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 945758062, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
+      propertyPath: ExistorClass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 945758062, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
+      propertyPath: IdeologicalReasoning
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 945758062, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
+      propertyPath: AscriptiveFunctioning
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996082, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_Name

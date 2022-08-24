@@ -495,7 +495,7 @@ namespace UniversalMachine
             primordials += Mathf.Pow(Assertation.z, deltaTime);
 
             primordials += Mathf.Pow(Conductance.x, deltaTime);
-            primordials += Mathf.Pow(Conductance.y, deltaTime);
+            primordials += Mathf.Pow(Conductance.y, deltaTime);         
             primordials += Mathf.Pow(Conductance.z, deltaTime);
 
             primordials /= Mathf.Pow(deltaTime, 3);

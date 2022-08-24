@@ -48,28 +48,6 @@ namespace UniversalMachine
         // Start is called before the first frame update
         void Start()
         {
-            CalculateArena();
-
-            //ColorGradient = new Gradient();
-            //colorKey = new GradientColorKey[Colors.Count];
-            //alphaKey = new GradientAlphaKey[Colors.Count];
-
-            //for (int i = 0; i < Colors.Count; i++)
-            //{
-            //    colorKey[i].color = Colors[i];
-            //    colorKey[i].time = 1 / Colors.Count * i;
-            //}
-            //
-            //float densityRatio = (float)ContactRatio / Colors.Count;
-            //for (int i = 0; i < Colors.Count; i++)
-            //{
-            //    //alphaKey[i].alpha = 1.0f / Colors.Count * i * (densityRatio * i);
-            //    alphaKey[i].alpha = 1f;
-            //    alphaKey[i].time = 1 / Colors.Count * i;
-            //}
-
-            //ColorGradient.SetKeys(colorKey, alphaKey);
-            //ColorGradient.mode = GradientMode.Blend;
 
             sTime = 1 ;
         }
