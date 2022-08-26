@@ -550,7 +550,6 @@ MonoBehaviour:
   Prefabricant: {fileID: 6938490054915645101}
   QuantaTree: {fileID: 1993133089}
   Quanta: 0
-  Range: 400
 --- !u!1 &6938490053828638923
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,10 +788,10 @@ MonoBehaviour:
   PrimaryMesh: {fileID: 6938490054434195092}
   SecondaryMesh: {fileID: 6938490052934432357}
   Diameter: 1.45
-  Distance: 1
+  Distance: 1.5
   Position: {x: 0, y: 0}
   Bifurcation: {x: 1, y: 0, z: 0}
-  Contact: {x: 1, y: 1, z: 0.03141592, w: 1}
+  Contact: {x: 1.02, y: 1.03, z: 0.03141592, w: 6}
   ColorGradient:
     serializedVersion: 2
     key0: {r: 0, g: 0, b: 0, a: 1}
@@ -1140,9 +1139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DC: {fileID: 6938490054327419775}
   Diameter: 1
-  IdeologicalReasoning: 200
-  AscriptiveFunctioning: 1000
-  ExistorClass: 0
+  IdeologicalReasoning: 4
+  AscriptiveFunctioning: 10
+  ExistorClass: 1
   Light: {fileID: 6938490054327419774}
 --- !u!1 &6938490054434195080
 GameObject:
@@ -1336,8 +1335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced2762ac98eb32408cbd033881515a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Energy: {x: 0, y: 0, z: 0, w: 0}
-  Position: {x: 0, y: 0, z: 0, w: 0}
+  Ascription: {x: 0, y: 0, z: 0, w: 0}
+  Attunement: {x: 0, y: 0, z: 0, w: 0}
   Descriptor: {x: 0, y: 0, z: 0, w: 0}
   SlamEvents: 0
   SlamConsideration: 0

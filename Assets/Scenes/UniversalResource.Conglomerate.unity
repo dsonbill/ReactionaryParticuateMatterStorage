@@ -1718,7 +1718,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &873042936
 MeshRenderer:
@@ -4107,7 +4107,7 @@ PrefabInstance:
     - target: {fileID: 2056090607526753829, guid: 2b5f59254c613ec4f850451d1714e34e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2056090607526753830, guid: 2b5f59254c613ec4f850451d1714e34e,
         type: 3}
@@ -4885,7 +4885,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5030270415144656414
 PrefabInstance:
@@ -5072,7 +5072,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &5593616262556599565
 MeshFilter:
@@ -5611,37 +5611,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 945758062, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
-      propertyPath: ExistorClass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 945758062, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
-      propertyPath: IdeologicalReasoning
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 945758062, guid: 7d103ba37e276f046ba1501854c7df96, type: 3}
-      propertyPath: AscriptiveFunctioning
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996082, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
       propertyPath: m_Name
       value: Existence
-      objectReference: {fileID: 0}
-    - target: {fileID: 6938490054000996090, guid: 7d103ba37e276f046ba1501854c7df96,
-        type: 3}
-      propertyPath: Contact.w
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6938490054000996090, guid: 7d103ba37e276f046ba1501854c7df96,
-        type: 3}
-      propertyPath: Contact.x
-      value: 1.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 6938490054000996090, guid: 7d103ba37e276f046ba1501854c7df96,
-        type: 3}
-      propertyPath: Contact.y
-      value: 1.03
       objectReference: {fileID: 0}
     - target: {fileID: 6938490054000996092, guid: 7d103ba37e276f046ba1501854c7df96,
         type: 3}
