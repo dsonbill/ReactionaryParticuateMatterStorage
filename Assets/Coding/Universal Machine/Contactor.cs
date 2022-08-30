@@ -1,3 +1,4 @@
+using JsonFx.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace UniversalMachine
 
         public SimpleShacle Binding;
 
+        public ContactZoneController ZoneController;
+
         public List<Particle> UnitQuanta = new List<Particle>();
 
         System.Random r = new System.Random();
@@ -32,6 +35,7 @@ namespace UniversalMachine
             ContactorSetup();
             DispensarySetup();
             ExistenceSetup();
+            ZoneControllerSetup();
         }
         
 
@@ -40,16 +44,16 @@ namespace UniversalMachine
             Meaning.Quanta = () => { return UnitQuanta; };
         }
 
-        void DarkRadiance()
-        {
-            foreach (Particle particle in UnitQuanta)
-            {
-                float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
-                double energy = Radiance.GetIntensity(distance);
-                Vector3 offset = Meaning.transform.right * (float)Radiance.GetReactivity(distance) * (float)energy;
-                particle.AddForce(offset, Vector3.zero, Time.deltaTime);
-            }
-        }
+        //void DarkRadiance()
+        //{
+        //    foreach (Particle particle in UnitQuanta)
+        //    {
+        //        float distance = Vector3.Distance(Meaning.transform.position, particle.PointPosition(Time.deltaTime));
+        //        double energy = Radiance.GetIntensity(distance);
+        //        Vector3 offset = Meaning.transform.right * (float)Radiance.GetReactivity(distance) * (float)energy;
+        //        particle.AddForce(offset, Vector3.zero, Time.deltaTime);
+        //    }
+        //}
 
         void ContactorSetup()
         {
@@ -59,14 +63,15 @@ namespace UniversalMachine
 
         void DispensarySetup()
         {
+            Well.Quanta = () => { return UnitQuanta.Count; };
             Well.Range = () => { return (int)Source.AssertationScale; };
 
-            Well.OnDestroy = () => { Well.Quanta--; };
-            Well.Approach = () => { return (float)Source.AssertationScale; };
+            Well.OnDestroy = (p) => { UnitQuanta.Remove(p); };
+
+            Well.Approach = () => { return (float)r.NextDouble(); };
             Well.SafetyZone = () => { return Source.Diameter; };
 
             Well.IndexParticle = (p) => { UnitQuanta.Add(p); };
-            Well.DeindexParticle = (p) => { UnitQuanta.Remove(p); };
 
             Well.ProjectionReceivance = () => { return Marker.Project; };
 
@@ -82,6 +87,39 @@ namespace UniversalMachine
         void ExistenceSetup()
         {
             Zone.Quanta = () => { return UnitQuanta; };
+            Zone.WellDistance = () =>
+            {
+                return new Vector2(
+                    Vector3.Distance(Well.transform.position, Zone.Primary.transform.position),
+                    Vector3.Distance(Well.transform.position, Zone.Secondary.transform.position)
+                    );
+            };
+
+            Zone.WellDirection = (exPos) =>
+            {
+                return (Well.transform.position - exPos).normalized;
+            };
+        }
+
+        void ZoneControllerSetup()
+        {
+            ZoneController.ZoneExit = (c) =>
+            {
+                if (c.gameObject.GetComponent<Particle>() != null)
+                {
+                    Well.OnDestroy(c.gameObject.GetComponent<Particle>());
+                    Destroy(c.gameObject);
+                }
+            };
+
+            ZoneController.CapEnter = (c) =>
+            {
+                if (c.gameObject.GetComponent<Particle>() != null)
+                {
+                    Well.OnDestroy(c.gameObject.GetComponent<Particle>());
+                    Destroy(c.gameObject);
+                }
+            };
         }
 
         void FixedUpdate()

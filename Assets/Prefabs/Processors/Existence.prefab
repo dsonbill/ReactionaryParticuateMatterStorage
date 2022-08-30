@@ -1,5 +1,76 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1045382469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1045382470}
+  - component: {fileID: 1045382472}
+  - component: {fileID: 1045382473}
+  m_Layer: 21
+  m_Name: Applicable Range
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1045382470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045382469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.4, y: 1, z: 1.4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6938490054434195083}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1045382472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045382469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 664ab8e72eb465d4db3cfd07df6b1d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ZoneName: ApplicableRange
+  ZoneDescription: Applicable Range of Unit Quanta
+  ZoneType: Exitstant Zone
+  ZoneId: Zone.Exist.0
+--- !u!64 &1045382473
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045382469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1993133089
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Disc: {fileID: 6938490052903394341}
   Diameter: 1.145
-  Enscription: The Great Info-Burst Processor's Debut! Now Substantiated and Functional.
+  Enscription: They worked out a path to make all energy useful, leaving nothing
+    behing to be forgotten as trash.
   RotationRate: 0.145
   Height: 1.98
   Rotation: 0
@@ -490,7 +562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6938490053710387233}
   - component: {fileID: 6938490053710387235}
-  - component: {fileID: 6938490053710387232}
+  - component: {fileID: 732524258}
   m_Layer: 22
   m_Name: Exit Plane
   m_TagString: Untagged
@@ -535,7 +607,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &6938490053710387232
+--- !u!114 &732524258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -544,12 +616,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6938490053710387238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56ec69716dfd0a346b714e55332f4c70, type: 3}
+  m_Script: {fileID: 11500000, guid: 664ab8e72eb465d4db3cfd07df6b1d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefabricant: {fileID: 6938490054915645101}
-  QuantaTree: {fileID: 1993133089}
-  Quanta: 0
+  ZoneName: Enscription
+  ZoneDescription: Enscriber Disc Contact Zone
+  ZoneType: Unit Quanta Exit Zone
+  ZoneId: Zone.Exit.0
 --- !u!1 &6938490053828638923
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +634,7 @@ GameObject:
   - component: {fileID: 6938490053828638922}
   - component: {fileID: 6938490053828638932}
   - component: {fileID: 6938490053828638933}
+  - component: {fileID: 732524259}
   m_Layer: 21
   m_Name: Depths
   m_TagString: Untagged
@@ -633,6 +707,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &732524259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938490053828638923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ec69716dfd0a346b714e55332f4c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prefabricant: {fileID: 6938490054915645101}
+  QuantaTree: {fileID: 1993133089}
+  QuantaPerSecond: 40
 --- !u!1 &6938490054000996082
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +738,7 @@ GameObject:
   - component: {fileID: 6938490054000996094}
   - component: {fileID: 6938490054000996095}
   - component: {fileID: 6938490054000996090}
+  - component: {fileID: 1289961415}
   m_Layer: 21
   m_Name: Existence
   m_TagString: Untagged
@@ -675,7 +765,7 @@ Transform:
   - {fileID: 6938490052934432344}
   - {fileID: 6938490054915645100}
   m_Father: {fileID: 0}
-  m_RootOrder: 56
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6938490054000996093
 MonoBehaviour:
@@ -694,10 +784,11 @@ MonoBehaviour:
   Zone: {fileID: 6938490054000996090}
   Marker: {fileID: 6938490054000995845}
   Contacts: {fileID: 6938490054000996095}
-  Well: {fileID: 6938490053710387232}
+  Well: {fileID: 732524259}
   Source: {fileID: 945758062}
   Depths: {fileID: 6938490054000996088}
   Binding: {fileID: 6938490054000995844}
+  ZoneController: {fileID: 1289961415}
   UnitQuanta: []
 --- !u!114 &6938490054000995844
 MonoBehaviour:
@@ -748,7 +839,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6938490054000996082}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84688f1ba26d860449fbd899340d3892, type: 3}
   m_Name: 
@@ -787,7 +878,7 @@ MonoBehaviour:
   Secondary: {fileID: 6938490052934432344}
   PrimaryMesh: {fileID: 6938490054434195092}
   SecondaryMesh: {fileID: 6938490052934432357}
-  Diameter: 1.45
+  Diameter: 1.25
   Distance: 1.5
   Position: {x: 0, y: 0}
   Bifurcation: {x: 1, y: 0, z: 0}
@@ -853,6 +944,34 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   Substantiation: 0
+--- !u!114 &1289961415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938490054000996082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666820d77a445c94e86fbdea4ad4412b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Zones:
+  - {fileID: 1045382472}
+  Caps:
+  - {fileID: 732524258}
+  Walls: []
+  Halls: []
+  Slots: []
+  Ticks: []
+  Ticks2: []
+  Ticks3: []
+  Ticks4: []
+  Ticks5: []
+  Ticks6: []
+  Ticks7: []
+  Ticks8: []
+  Ticks9: []
 --- !u!1 &6938490054078724343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,8 +1258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DC: {fileID: 6938490054327419775}
   Diameter: 1
-  IdeologicalReasoning: 4
-  AscriptiveFunctioning: 10
+  IdeologicalReasoning: 6.4
+  AscriptiveFunctioning: 8.7616
   ExistorClass: 1
   Light: {fileID: 6938490054327419774}
 --- !u!1 &6938490054434195080
@@ -1173,7 +1292,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.45, y: 0.5, z: 1.45}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1045382470}
   m_Father: {fileID: 6938490054000996092}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

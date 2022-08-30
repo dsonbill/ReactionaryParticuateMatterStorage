@@ -114,8 +114,11 @@ namespace UniversalMachine
         {
             DC.localScale = new Vector3((float)Diameter, (float)Diameter, (float)Diameter);
 
-            float penetration = Mathf.Pow(Diameter, 2) * ContactRatio();
-            DC.localPosition = new Vector3(DC.localPosition.x, (float)(1 / penetration * TotalAscriptiveForce), DC.localPosition.z);
+            float penetration = Mathf.PI * Mathf.Pow(ContactRatio(), 3);
+            float aspectRatio = TotalAscriptiveForce == 0 ? 0 :  1 / (float)TotalAscriptiveForce;
+
+
+            DC.localPosition = new Vector3(DC.localPosition.x, aspectRatio * penetration, DC.localPosition.z);
 
             Light.range = (float)Diameter * 2 / Ascriptions();
             Light.intensity = (float)AssertationScale / Ascriptions();
@@ -140,7 +143,7 @@ namespace UniversalMachine
         }
 
         void ContactQuantum()
-        {
+        { 
             while (Contacts.Count > 0)
             {
                 Contact(Contacts.Dequeue());

@@ -42,6 +42,9 @@ namespace UniversalMachine
 
         public Func<List<Particle>> Quanta;
 
+        public Func<Vector2> WellDistance;
+        public Func<Vector3, Vector3> WellDirection;
+
         float pTime;
         float sTime;
 
@@ -69,7 +72,7 @@ namespace UniversalMachine
             Color offsetColor = PrimaryMesh.material.color - SecondaryMesh.material.color;
             float stateOffset = (offsetColor.r + offsetColor.g + offsetColor.b) / 3;
 
-            Substantiation = positionOffset * (1 / 360 * rotationalOffset);
+            Substantiation = (1 + positionOffset) * (1 / 360 * rotationalOffset);
         }
 
 
@@ -123,7 +126,27 @@ namespace UniversalMachine
 
             PrimaryMesh.material.color = ColorGradient.Evaluate(pTime);
             SecondaryMesh.material.color = SecondaryColorGradient.Evaluate(sTime);
-        } 
+        }
+
+        Vector3 Force(Particle particle)
+        {
+            Vector2 wellDistance = WellDistance();
+
+            Vector3 deltaA = wellDistance.x * WellDirection(Primary.transform.position);
+            Vector3 deltaB = wellDistance.y * WellDirection(Secondary.transform.position);
+
+            Vector3 pPos = particle.PointPosition(Time.deltaTime);
+            
+            Vector3 adjPosA = pPos - deltaA;
+            Vector3 adjPosB = pPos - deltaB;
+
+            Vector3 adjPosBTrans = Secondary.TransformPoint(adjPosB);
+            Vector3 adjPosBInvTrans = Primary.InverseTransformPoint(adjPosBTrans);
+
+            Vector3 f = Mul((adjPosA - adjPosBInvTrans), new Vector3(0.5f, 0.5f, 0.5f));
+
+            return f;
+        }
 
         public void Friction()
         {
@@ -133,10 +156,9 @@ namespace UniversalMachine
                 float distance = offset.magnitude;
                 Vector3 direction = offset.normalized;
 
-                Vector3 force = direction * distance * Substantiation;
                 Vector3 torque = Bifurcation * distance * Substantiation;
 
-                particle.AddForce(-force, Vector3.one + torque, Time.deltaTime);
+                particle.AddForce(Force(particle), Vector3.one + torque, Time.deltaTime);
 
                 //Vector3 rot = new Vector3(Secondary.localRotation.x / 360, Secondary.localRotation.y / 360, Secondary.localRotation.z / 360);
                 //Vector3 onset = distance +

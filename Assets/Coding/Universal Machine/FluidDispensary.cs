@@ -12,9 +12,11 @@ namespace UniversalMachine
 
         public GameObject QuantaTree;
 
-        public Action OnDestroy;
+        public Action<Particle> OnDestroy;
 
-        public int Quanta;
+        public int QuantaPerSecond;
+
+        public Func<int> Quanta;
 
         public Func<int> Range;
 
@@ -29,32 +31,31 @@ namespace UniversalMachine
         public Func<float> ContactDepth;
 
         public Action<Particle> IndexParticle;
-        public Action<Particle> DeindexParticle;
 
         public Action<Particle> SpawnAction;
 
 
+        int quantaRelesed;
 
         System.Random r = new System.Random();
 
         // 12/30/2021 : 11:34 PM
-        void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.GetComponent<Particle>() != null)
-            {
-                DeindexParticle(collision.gameObject.GetComponent<Particle>());
-                Destroy(collision.gameObject);
-            }
-        }
 
-        void Update()
+        void FixedUpdate()
         {
-            for (int i = Quanta; i < Range(); i++)
+            //quantaRelesed = 0;
+
+            //int quantaAvailable = (int)(QuantaPerSecond * Time.deltaTime);
+            for (int i = Quanta(); i < Range(); i++)
             {
+                //if (quantaRelesed >= quantaAvailable)
+                //{
+                //    return;
+                //}
+
                 BeginParticle();
+                //quantaRelesed++;
             }
-            Quanta = Range();
-
         }
 
         public void BeginParticle()
@@ -97,7 +98,7 @@ namespace UniversalMachine
 
             IndexParticle(p);
 
-            p.onDestroy += () => { OnDestroy(); };
+            p.onDestroy += () => { OnDestroy(p); };
 
             SpawnAction(p);
         }

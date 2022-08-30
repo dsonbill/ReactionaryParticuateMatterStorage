@@ -7,7 +7,7 @@ namespace UniversalMachine
 {
     public class PathMarker : MonoBehaviour
     {
-        public class Marker
+        public class Marker : ScriptableObject
         {
             public Vector3 Position;
             public Vector3 Direction;
@@ -46,6 +46,8 @@ namespace UniversalMachine
 
         public KeyedList<Marker> Path = new KeyedList<Marker>();
 
+        public Dictionary<int,Marker> Striations = new Dictionary<int,Marker>();
+
         public Vector3 Project(Vector3 start, Vector3 end, Vector3 energy)
         {
             Vector3 final = Vector3.zero;
@@ -62,7 +64,7 @@ namespace UniversalMachine
 
         public void Move(Vector3 start, Vector3 end, Vector3 energy)
         {
-            Marker path = new Marker();
+            Marker path = ScriptableObject.CreateInstance<Marker>();
 
             path.Position = start;
             path.Direction = (end - start).normalized;
@@ -71,6 +73,7 @@ namespace UniversalMachine
 
             Path.Add(path);
 
+            Striations.Add(Striations.Count, path);
         }
 
         // Start is called before the first frame update

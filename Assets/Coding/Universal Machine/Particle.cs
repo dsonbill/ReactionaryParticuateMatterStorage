@@ -282,7 +282,7 @@ namespace UniversalMachine
 
             Vector3 projectedPos = Project(pPos, pos, pEnergy);
 
-            float discrnUp = deltaTime / pPos.magnitude * projectedPos.magnitude;
+            float discrnUp = deltaTime / Mathf.Abs(pPos.magnitude) * Mathf.Abs(projectedPos.magnitude);
 
             IndiscernProperty(
                 pPos,
@@ -315,24 +315,24 @@ namespace UniversalMachine
 
         public void IndiscernProperty(Vector3 discernment, Vector4 resultant, float deltaTime, Action<Vector4> record, Func<Vector4> describe)
         {
-            Vector3 contained = ((Vector3)describe()) - discernment;
+            //Vector3 contained = ((Vector3)describe()) - discernment;
 
-            float resultantMagnitude = ((Vector3)resultant).magnitude;
+            Vector3 delta = ((Vector3)resultant) - discernment;
+
+            float deltaMagnitude = delta.magnitude;
 
             Vector3 indiscernable = new Vector3(
-                Indiscern(resultantMagnitude),
-                Indiscern(resultantMagnitude),
-                Indiscern(resultantMagnitude));
+                Indiscern(deltaMagnitude),
+                Indiscern(deltaMagnitude),
+                Indiscern(deltaMagnitude));
 
-            float indiscernment = Vector3.Distance(discernment, indiscernable);
-
-            float dimensionality = 1 / (describe().w - resultant.w) * indiscernment;
+            Vector4 desc = describe();
 
             record(new Vector4(
-                contained.x + indiscernable.x,
-                contained.y + indiscernable.y,
-                contained.z + indiscernable.z,
-                describe().w - resultant.w + dimensionality));
+                desc.x + indiscernable.x,
+                desc.y + indiscernable.y,
+                desc.z + indiscernable.z,
+                desc.w - deltaTime + resultant.w));
         }
         
         public void Fold(EffectorFolding target, Vector3 foldingDelta)
@@ -523,7 +523,9 @@ namespace UniversalMachine
 
         public void Reduce(float delta, Func<double, double, double> algorithmic, Func<Particle> stream)
         {
-            
+            //Apply Descriptor Shaping
+            //Energetic, Solid, Spacial, Mechanical
+
         }
 
         public void SetPosition(float deltaTime)
